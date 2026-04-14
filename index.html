@@ -1,760 +1,1114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<meta name="theme-color" content="#1a0a02" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<title>The Coffee Ledger — Merchant's Reckoning</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#2a1e0a"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>The Coffee Ledger — Merchant's Grimoire</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-:root {
-  --parch:   #f2e8cc;
-  --parch2:  #e8d9aa;
-  --parch3:  #c9b47a;
-  --ink:     #1c0f05;
-  --ink2:    #3b200a;
-  --ink3:    #5c3317;
-  --gold:    #b8860b;
-  --gold2:   #d4a017;
-  --gold3:   #f0c040;
-  --crimson: #6b0f1a;
-  --crim2:   #8b1a2a;
-  --crim3:   #a52535;
-  --teal:    #1a4a3a;
-  --teal2:   #245c48;
-  --shadow:  rgba(28,15,5,0.35);
-  --display: 'Cinzel Decorative', serif;
-  --heading: 'Cinzel', serif;
-  --body:    'IM Fell English', serif;
-}
-
-html, body {
-  min-height: 100vh;
-  background: #0e0703;
-  color: var(--ink);
-  font-family: var(--body);
-  font-size: 16px;
-  overflow-x: hidden;
-}
-
-/* Dark outer vignette */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(8,3,1,0.75) 100%);
-  pointer-events: none;
-  z-index: 0;
+:root{
+  /* World background — dark stone surround */
+  --world:      #241c10;
+  /* Panel surfaces — muted ecru/linen parchment, less yellow */
+  --parch:      #ede4d0;
+  --parch2:     #e4d9c0;
+  --parch3:     #d8ccb0;
+  --parch4:     #b89e72;
+  --parch-dark: #6e5020;
+  --panel:      #eae0cc;
+  --panel2:     #e0d4b8;
+  --panel3:     #d4c8a4;
+  --panel-sh:   rgba(10,6,0,0.55);
+  /* Text — deep ink on parchment */
+  --ink:        #1e1408;
+  --ink2:       #2e1e0c;
+  --ink3:       #6a4a1e;
+  /* Crimson */
+  --crimson:    #7a0f18;
+  --crim2:      #9a1a22;
+  --crim3:      #b82030;
+  /* Gold — less saturated, more bronze */
+  --gold:       #886010;
+  --gold2:      #a07018;
+  --gold3:      #bc8e28;
+  /* Teal */
+  --teal:       #1a5030;
+  --teal2:      #226840;
+  --teal3:      #2e8850;
+  --display:    'Cinzel Decorative', serif;
+  --heading:    'Cinzel', serif;
+  --body:       'IM Fell English', serif;
 }
 
-.app {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px 14px 70px;
-  background: var(--parch);
-  min-height: 100vh;
-  box-shadow: 0 0 100px rgba(0,0,0,0.9), inset 0 0 80px rgba(184,134,11,0.05);
-}
-@media(min-width:600px){ .app { padding: 44px 40px 80px; } }
-
-/* Subtle parchment line texture */
-.app::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 28px,
-    rgba(28,15,5,0.035) 28px,
-    rgba(28,15,5,0.035) 29px
-  );
-  pointer-events: none;
+html,body{
+  min-height:100vh;
+  background:var(--world);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  overflow-x:hidden;
 }
 
-/* ══ HEADER ══ */
-.header {
-  text-align: center;
-  padding-bottom: 30px;
-  margin-bottom: 34px;
-  position: relative;
-}
-.header::before {
-  content: '✦ ── ✦ ── ✦';
-  display: block;
-  color: var(--gold);
-  font-family: var(--heading);
-  font-size: 11px;
-  letter-spacing: 8px;
-  margin-bottom: 20px;
-}
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 8%; right: 8%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold2) 50%, var(--gold) 80%, transparent);
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    repeating-linear-gradient(0deg,  transparent,transparent 39px,rgba(0,0,0,0.14) 39px,rgba(0,0,0,0.18) 40px),
+    repeating-linear-gradient(90deg, transparent,transparent 39px,rgba(0,0,0,0.10) 39px,rgba(0,0,0,0.12) 40px);
+  pointer-events:none;z-index:0;
 }
 
-.crest {
-  display: block;
-  font-size: clamp(38px, 10vw, 58px);
-  margin-bottom: 12px;
-  filter: sepia(0.3) drop-shadow(0 2px 8px rgba(184,134,11,0.35));
-  animation: sway 5s ease-in-out infinite;
+.app{
+  position:relative;z-index:1;
+  max-width:1000px;
+  margin:0 auto;
+  padding:14px 12px 40px;
 }
-@keyframes sway { 0%,100%{transform:rotate(-1.5deg)} 50%{transform:rotate(1.5deg)} }
+@media(min-width:640px){.app{padding:22px 20px 50px;}}
 
-.header h1 {
-  font-family: var(--display);
-  font-size: clamp(15px, 5vw, 26px);
-  color: var(--crimson);
-  letter-spacing: 2px;
-  line-height: 1.35;
-  text-shadow: 1px 1px 0 rgba(184,134,11,0.25), 2px 3px 6px rgba(28,15,5,0.15);
-  margin-bottom: 10px;
+/* ══════════ OUTER FRAME ══════════
+   One unified parchment frame that
+   holds everything — no gaps        */
+.grimoire{
+  background:var(--panel);
+  border:3px solid var(--parch4);
+  border-bottom:4px solid var(--parch-dark);
+  box-shadow:5px 5px 0 var(--panel-sh), 0 0 0 1px rgba(122,90,30,0.2);
+  position:relative;
 }
-.header .subtitle {
-  font-family: var(--heading);
-  font-size: clamp(9px, 2.8vw, 13px);
-  color: var(--ink3);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-.byline {
-  margin-top: 12px;
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 15px;
-  color: var(--ink3);
+.grimoire::before{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(180,135,30,0.25);
+  pointer-events:none;z-index:0;
 }
 
-/* ══ SECTION DIVIDER ══ */
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
+/* ══════════ TITLE BAND ══════════ */
+.title-band{
+  background:linear-gradient(180deg,var(--panel2),var(--panel3));
+  border-bottom:2px solid var(--parch4);
+  padding:14px 18px 12px;
+  text-align:center;
+  position:relative;z-index:1;
 }
-.section-label::before,
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
+.title-orn{font-family:var(--heading);font-size:10px;color:var(--gold2);letter-spacing:8px;margin-bottom:8px;}
+.title-main{
+  font-family:var(--display);
+  font-size:clamp(15px,3.8vw,26px);
+  color:var(--crimson);
+  letter-spacing:2px;
+  text-shadow:1px 1px 0 rgba(180,135,30,0.3), 2px 2px 6px rgba(10,6,0,0.15);
+  margin-bottom:4px;
 }
-.section-label::before { background: linear-gradient(90deg, transparent, var(--gold)); }
-.section-label::after  { background: linear-gradient(90deg, var(--gold), transparent); }
-.section-label span {
-  font-family: var(--heading);
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: var(--gold);
-  white-space: nowrap;
-  text-transform: uppercase;
-}
-
-/* ══ GRID ══ */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-bottom: 28px;
-}
-@media(min-width:560px){ .grid { grid-template-columns: repeat(2, 1fr); } }
-
-/* ══ PANEL ══ */
-.panel {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid var(--parch3);
-  padding: 18px 15px;
-  position: relative;
-  box-shadow: inset 0 0 24px rgba(184,134,11,0.04), 2px 3px 10px var(--shadow);
-}
-@media(min-width:600px){ .panel { padding: 22px 20px; } }
-.panel::before {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  border: 1px solid rgba(184,134,11,0.2);
-  pointer-events: none;
+.title-sub{
+  font-family:var(--heading);
+  font-size:clamp(8px,1.8vw,11px);
+  color:var(--ink3);letter-spacing:3px;text-transform:uppercase;
 }
 
-/* Corner diamonds */
-.panel::after {
-  content: '◆';
-  position: absolute;
-  top: -7px; left: 50%;
-  transform: translateX(-50%);
-  color: var(--gold);
-  font-size: 10px;
-  background: var(--parch);
-  padding: 0 4px;
+/* stock strip inside title */
+.stock-strip{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:4px 20px;
+  margin-top:10px;padding-top:8px;
+  border-top:1px solid var(--parch4);
+}
+.si{display:flex;align-items:center;gap:5px;font-family:var(--heading);font-size:10px;letter-spacing:0.5px;}
+.si-label{color:var(--ink3);}
+.si-val{color:var(--crimson);font-weight:600;}
+.si-val.good{color:var(--teal2);}
+.si-val.warn{color:var(--gold);}
+.si-val.over{color:var(--crim3);}
+
+/* ══════════ THREE-ZONE BODY ══════════
+   Supply | Recipes | Ledger
+   All sit inside the grimoire frame    */
+.body-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  position:relative;z-index:1;
+}
+@media(min-width:680px){
+  .body-grid{
+    grid-template-columns:250px 1fr 210px;
+  }
 }
 
-.panel-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--parch3);
+/* Vertical dividers between columns */
+.col{
+  border-right:1px solid var(--parch3);
+  display:flex;flex-direction:column;
 }
-.panel-icon { font-size: 18px; line-height: 1; }
-.panel-title {
-  font-family: var(--heading);
-  font-size: 12px;
-  color: var(--crimson);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-.panel-stage {
-  margin-left: auto;
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--ink3);
+.col:last-child{border-right:none;}
+
+/* On mobile, horizontal dividers instead */
+@media(max-width:679px){
+  .col{border-right:none;border-bottom:2px solid var(--parch4);}
+  .col:last-child{border-bottom:none;}
 }
 
-/* ══ FIELDS ══ */
-.field { margin-bottom: 16px; }
-.field:last-child { margin-bottom: 0; }
-.field label {
-  display: block;
-  font-family: var(--heading);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--ink3);
-  margin-bottom: 6px;
+/* ══════════ COL HEADERS ══════════ */
+.col-head{
+  background:linear-gradient(180deg,var(--panel2),var(--panel3));
+  border-bottom:2px solid var(--parch4);
+  padding:7px 14px;
+  display:flex;align-items:center;gap:7px;
+  flex-shrink:0;
 }
-.input-wrap { position: relative; }
-.input-wrap .prefix {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--heading);
-  font-size: 14px;
-  color: var(--gold);
-  pointer-events: none;
-  font-weight: 600;
+.ch-icon{font-size:14px;color:var(--gold2);}
+.ch-title{
+  font-family:var(--heading);
+  font-size:10px;color:var(--crimson);
+  letter-spacing:1.5px;text-transform:uppercase;font-weight:700;
+}
+.ch-badge{
+  margin-left:auto;
+  font-family:var(--body);font-style:italic;
+  font-size:11px;color:var(--ink3);
 }
 
-input[type=number] {
-  width: 100%;
-  background: rgba(28,15,5,0.05);
-  border: none;
-  border-bottom: 2px solid var(--gold);
-  border-left: 1px solid rgba(184,134,11,0.3);
-  color: var(--ink);
-  font-family: var(--body);
-  font-size: 18px;
-  padding: 9px 10px 9px 26px;
-  outline: none;
-  -moz-appearance: textfield;
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  min-height: 44px;
-  transition: border-color 0.2s, background 0.2s;
+.col-body{padding:10px 12px;flex:1;}
+
+/* ══════════ SUPPLY SECTION ══════════ */
+.supply-bar-wrap{margin-bottom:10px;}
+.sbar-labels{
+  display:flex;justify-content:space-between;
+  font-family:var(--heading);font-size:9px;
+  color:var(--ink3);letter-spacing:0.5px;margin-bottom:3px;
 }
+.sbar-track{
+  height:9px;background:rgba(26,14,4,0.12);
+  border:1px solid var(--parch4);overflow:hidden;
+}
+.sbar-fill{
+  height:100%;transition:width 0.4s,background 0.4s;
+  background:var(--teal2);position:relative;
+}
+.sbar-fill::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.25);}
+
+.inv-row{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:8px 0;border-bottom:1px solid rgba(200,168,90,0.4);
+}
+.inv-row:last-child{border-bottom:none;}
+.inv-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;padding-top:2px;color:var(--gold2);}
+.inv-info{flex:1;min-width:0;}
+.inv-name{font-family:var(--heading);font-size:11px;color:var(--ink);letter-spacing:0.3px;margin-bottom:4px;}
+.inv-hint{font-family:var(--body);font-style:italic;font-size:11px;color:var(--ink3);}
+.inv-fields{margin-top:5px;display:flex;flex-direction:column;gap:4px;}
+.inv-field{display:flex;align-items:center;gap:5px;}
+.if-label{font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:0.5px;width:32px;flex-shrink:0;text-align:right;padding-right:4px;}
+
+/* ══════════ INPUTS ══════════ */
+.m-wrap{position:relative;display:inline-flex;align-items:center;}
+.m-wrap .pfx{
+  position:absolute;left:6px;
+  font-family:var(--heading);font-size:12px;
+  color:var(--gold2);pointer-events:none;font-weight:600;
+}
+input[type=number]{
+  background:rgba(26,14,4,0.06);
+  border:1px solid var(--parch3);
+  border-bottom:2px solid var(--gold);
+  color:var(--ink);
+  font-family:var(--body);font-size:15px;
+  padding:4px 6px 4px 20px;
+  outline:none;
+  -moz-appearance:textfield;-webkit-appearance:none;appearance:none;
+  border-radius:0;min-height:32px;width:80px;
+  transition:border-color 0.15s,background 0.15s;
+}
+input[type=number].no-pfx{padding-left:6px;}
+input[type=number].full{width:100%;}
 input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
-input[type=number]:focus {
-  background: rgba(184,134,11,0.06);
-  border-bottom-color: var(--crimson);
-  border-left-color: rgba(107,15,26,0.4);
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
+input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,128,24,0.08);}
+.iunit{font-family:var(--heading);font-size:10px;color:var(--ink3);margin-left:3px;}
+
+/* ══════════ BATCH CARDS ══════════ */
+.batch-list{display:flex;flex-direction:column;gap:8px;}
+
+.supply-warn{
+  background:rgba(122,15,24,0.08);border:1px solid var(--crimson);
+  padding:5px 10px;font-family:var(--heading);font-size:10px;
+  color:var(--crimson);letter-spacing:0.5px;margin-bottom:8px;display:none;
+}
+.supply-warn.show{display:block;}
+
+.batch-card{
+  background:rgba(0,0,0,0.10);
+  border:1px solid var(--parch4);
+}
+.bc-head{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 10px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel3));
+  border-bottom:1px solid var(--parch4);
+  cursor:pointer;user-select:none;
+}
+.bc-head:hover{filter:brightness(0.97);}
+.bc-num{font-family:var(--heading);font-size:9px;color:var(--gold2);letter-spacing:0.5px;flex-shrink:0;}
+.bc-name{
+  flex:1;min-width:0;
+  background:transparent;border:none;
+  border-bottom:1px solid rgba(200,168,90,0.4);
+  color:var(--ink);font-family:var(--heading);font-size:12px;
+  padding:1px 4px;outline:none;
+}
+.bc-name:focus{border-bottom-color:var(--crimson);}
+.bc-tog{font-size:12px;color:var(--ink3);flex-shrink:0;transition:transform 0.15s;}
+.bc-tog.open{transform:rotate(90deg);}
+.bc-del{background:none;border:none;color:var(--crim3);font-size:13px;cursor:pointer;padding:0 2px;opacity:0.5;transition:opacity 0.15s;}
+.bc-del:hover{opacity:1;}
+
+.bc-body{display:none;padding:8px 10px 6px;}
+.bc-body.open{display:block;}
+
+/* 3-col inputs inside batch */
+.bc-fields{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:6px 8px;
+  margin-bottom:7px;
+}
+.bc-field label{
+  display:block;font-family:var(--heading);
+  font-size:9px;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;
+}
+.bc-field input{width:100%;}
+
+/* Auto chips in a row */
+.bc-autos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:6px;}
+.bc-auto{background:rgba(26,14,4,0.08);border-left:2px solid var(--gold2);padding:4px 7px;}
+.bca-lbl{font-family:var(--heading);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.3px;display:block;margin-bottom:2px;}
+.bca-val{font-family:var(--body);font-size:14px;color:var(--teal2);}
+.bca-val.bad{color:var(--crim3);}
+
+/* Usage bar */
+.bc-ubar{height:4px;background:rgba(26,14,4,0.1);border:1px solid var(--parch3);overflow:hidden;margin-bottom:1px;}
+.bc-ufill{height:100%;transition:width 0.4s,background 0.4s;background:var(--teal2);}
+
+/* result strip */
+.bc-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--panel2);
+  border-top:1px solid var(--parch4);
+}
+.bcs-cell{padding:5px 8px;border-right:1px solid rgba(200,168,90,0.3);}
+.bcs-cell:last-child{border-right:none;}
+.bcs-lbl{font-family:var(--heading);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.3px;display:block;margin-bottom:2px;}
+.bcs-val{font-family:var(--body);font-size:14px;color:var(--ink);}
+.bcs-val.good{color:var(--teal2);}
+.bcs-val.bad{color:var(--crim3);}
+.bcs-val.gold{color:var(--gold);}
+
+/* Add batch btn */
+.add-btn{
+  width:100%;background:var(--panel2);
+  border:none;border-top:1px dashed var(--parch4);
+  color:var(--gold);font-family:var(--heading);
+  font-size:10px;letter-spacing:1.5px;
+  padding:9px;cursor:pointer;text-align:center;
+  text-transform:uppercase;transition:background 0.15s,color 0.15s;
+  margin-top:8px;
+}
+.add-btn:hover{background:var(--panel3);color:var(--crimson);}
+
+/* ══════════ LEDGER COL ══════════ */
+.ledger-stat{
+  padding:8px 12px;
+  border-bottom:1px solid rgba(200,168,90,0.4);
+  display:flex;flex-direction:column;
+}
+.ledger-stat:last-child{border-bottom:none;}
+.ls-label{font-family:var(--heading);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.ls-val{font-family:var(--body);font-size:18px;color:var(--ink);}
+.ls-val.crimson{color:var(--crimson);}
+.ls-val.teal{color:var(--teal2);}
+.ls-val.gold{color:var(--gold);}
+
+.ledger-divider{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px;font-size:10px;color:var(--gold2);
+}
+.ledger-divider::before,.ledger-divider::after{content:'';flex:1;height:1px;background:var(--parch4);}
+
+.margin-wrap{padding:6px 12px 8px;}
+.marg-labels{display:flex;justify-content:space-between;font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:0.3px;margin-bottom:4px;}
+.marg-track{height:9px;background:rgba(26,14,4,0.12);border:1px solid var(--parch4);overflow:hidden;}
+.marg-fill{height:100%;transition:width 0.5s,background 0.5s;position:relative;}
+.marg-fill::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.2);}
+
+.revenue-box{
+  padding:14px 12px;text-align:center;
+  border-top:1px solid var(--parch4);
+}
+.rev-lbl{font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.rev-val{
+  font-family:var(--display);
+  font-size:clamp(18px,3vw,26px);
+  color:var(--crimson);
+  letter-spacing:1px;
+  text-shadow:1px 1px 0 rgba(180,135,30,0.25);
+  margin-bottom:8px;
+  word-break:break-all;
+}
+.profit-chip{
+  display:inline-block;
+  font-family:var(--heading);font-size:10px;
+  padding:5px 12px;border:2px solid;
+  letter-spacing:1px;text-transform:uppercase;
+}
+.profit-chip.pos{color:var(--teal);border-color:var(--teal);background:rgba(34,104,64,0.08);}
+.profit-chip.neg{color:var(--crimson);border-color:var(--crimson);background:rgba(122,15,24,0.08);}
+
+/* ══════════ FOOTER BAND ══════════ */
+.footer-band{
+  background:linear-gradient(180deg,var(--panel2),var(--panel3));
+  border-top:2px solid var(--parch4);
+  padding:8px 18px;
+  text-align:center;
+  position:relative;z-index:1;
+}
+.footer-band p{font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);line-height:2;}
+.footer-orn{color:var(--gold2);font-size:14px;margin:0 6px;}
+
+.verse-wrap{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--parch4);
+  text-align:center;
+}
+.verse-orn{
+  font-family:var(--heading);
+  font-size:10px;color:var(--gold2);
+  letter-spacing:6px;margin-bottom:8px;
+}
+.verse-text{
+  font-family:var(--body);
+  font-style:italic;
+  font-size:14px;
+  color:var(--ink2);
+  line-height:1.7;
+  max-width:620px;
+  margin:0 auto 6px;
+  min-height:2.4em;
+  transition:opacity 0.6s ease;
+}
+.verse-ref{
+  font-family:var(--heading);
+  font-size:10px;
+  color:var(--ink3);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  transition:opacity 0.6s ease;
 }
 
-.field-hint {
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--ink3);
-  margin-top: 4px;
+/* ══════════ TOOLTIP / BREAKDOWN ══════════ */
+.tt-btn{
+  background:none;border:1px solid var(--parch4);
+  color:var(--ink3);font-family:var(--heading);
+  font-size:9px;letter-spacing:0.5px;
+  padding:2px 7px;cursor:pointer;
+  transition:background 0.1s,color 0.1s;
+  flex-shrink:0;
 }
+.tt-btn:hover{background:var(--panel3);color:var(--crimson);}
 
-/* ══ RESULTS ══ */
-.results {
-  background: rgba(255,255,255,0.14);
-  border: 1px solid var(--gold);
-  padding: 20px 14px;
-  margin-bottom: 28px;
-  position: relative;
-  box-shadow: 0 0 0 5px rgba(184,134,11,0.08), 3px 3px 14px var(--shadow);
+/* Overlay backdrop */
+.tt-overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(10,6,0,0.55);
+  z-index:900;
+  align-items:center;justify-content:center;
+  padding:16px;
 }
-@media(min-width:600px){ .results { padding: 28px 26px; } }
-.results::before {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(184,134,11,0.25);
-  pointer-events: none;
-}
+.tt-overlay.open{display:flex;}
 
-.results-title {
-  text-align: center;
-  font-family: var(--display);
-  font-size: clamp(11px, 3.5vw, 17px);
-  color: var(--crimson);
-  letter-spacing: 3px;
-  margin-bottom: 6px;
+/* The popup card */
+.tt-card{
+  background:var(--panel);
+  border:3px solid var(--parch4);
+  border-bottom:4px solid var(--parch-dark);
+  box-shadow:6px 6px 0 var(--panel-sh);
+  max-width:420px;
+  width:100%;
+  position:relative;
 }
-.results-title::after {
-  content: '❧';
-  display: block;
-  color: var(--gold);
-  font-size: 20px;
-  margin-top: 6px;
-  margin-bottom: 18px;
-  font-family: serif;
+.tt-card::before{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(176,120,24,0.2);
+  pointer-events:none;
 }
+.tt-header{
+  background:linear-gradient(180deg,var(--panel2),var(--panel3));
+  border-bottom:2px solid var(--parch4);
+  padding:10px 14px;
+  display:flex;align-items:center;gap:8px;
+}
+.tt-title{
+  font-family:var(--heading);font-size:12px;
+  color:var(--crimson);letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:700;flex:1;
+}
+.tt-close{
+  background:none;border:1px solid var(--parch4);
+  color:var(--ink3);font-size:14px;
+  cursor:pointer;padding:1px 8px;
+  transition:background 0.1s;
+}
+.tt-close:hover{background:var(--crim3);color:var(--parch);}
 
-/* Stat grid */
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 22px;
-}
-@media(min-width:540px){ .stat-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+.tt-body{padding:14px 16px;}
 
-.stat-box {
-  background: var(--ink);
-  border: 1px solid var(--gold);
-  padding: 12px 8px;
-  text-align: center;
-  position: relative;
+/* Section heading inside tooltip */
+.tt-section{
+  font-family:var(--heading);font-size:9px;
+  color:var(--gold2);letter-spacing:2px;
+  text-transform:uppercase;
+  margin:12px 0 6px;
+  display:flex;align-items:center;gap:8px;
 }
-.stat-box::before {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: 1px solid rgba(184,134,11,0.2);
-  pointer-events: none;
-}
-.stat-label {
-  display: block;
-  font-family: var(--heading);
-  font-size: 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--parch3);
-  margin-bottom: 8px;
-}
-.stat-value {
-  font-family: var(--heading);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--gold3);
-  line-height: 1;
-}
-.stat-value.crimson { color: var(--crim3); }
-.stat-value.teal    { color: #5abf9a; }
+.tt-section::before,.tt-section::after{content:'';flex:1;height:1px;background:var(--parch4);}
+.tt-section:first-child{margin-top:0;}
 
-/* Divider */
-.ornament {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 20px 0;
-  color: var(--gold);
-  font-size: 12px;
+/* Individual breakdown rows */
+.tt-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:4px 0;
+  border-bottom:1px solid rgba(200,168,90,0.25);
+  gap:10px;
 }
-.ornament::before,
-.ornament::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-}
-.ornament::before { background: linear-gradient(90deg, transparent, var(--gold)); }
-.ornament::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+.tt-row:last-child{border-bottom:none;}
+.tt-row-label{font-family:var(--body);font-size:14px;color:var(--ink2);flex:1;}
+.tt-row-sub{font-family:var(--body);font-style:italic;font-size:11px;color:var(--ink3);margin-left:4px;}
+.tt-row-val{font-family:var(--body);font-size:15px;color:var(--ink);white-space:nowrap;}
+.tt-row-val.crimson{color:var(--crimson);}
+.tt-row-val.teal{color:var(--teal2);}
+.tt-row-val.gold{color:var(--gold);}
 
-/* Margin meter */
-.meter-label {
-  font-family: var(--heading);
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--ink3);
-  text-transform: uppercase;
-  margin-bottom: 6px;
+/* Total rows */
+.tt-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:8px 0 4px;
+  border-top:2px solid var(--parch4);
+  margin-top:4px;gap:10px;
 }
-.meter-track {
-  height: 12px;
-  background: rgba(28,15,5,0.1);
-  border: 1px solid var(--parch3);
-  overflow: hidden;
-}
-.meter-fill {
-  height: 100%;
-  transition: width 0.5s ease, background 0.5s;
-  position: relative;
-}
-.meter-fill::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(255,255,255,0.1) 8px, rgba(255,255,255,0.1) 10px);
-}
+.tt-total-label{font-family:var(--heading);font-size:10px;color:var(--crimson);letter-spacing:1px;text-transform:uppercase;}
+.tt-total-val{font-family:var(--heading);font-size:14px;color:var(--crimson);}
 
-/* Ledger table */
-.ledger {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  font-family: var(--body);
+.tt-profit-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:4px 0;gap:10px;
 }
-.ledger td {
-  padding: 8px 4px;
-  border-bottom: 1px dashed var(--parch3);
-  font-size: 16px;
-  color: var(--ink2);
-  vertical-align: top;
-}
-.ledger td:last-child {
-  text-align: right;
-  color: var(--ink);
-  font-weight: 600;
-  white-space: nowrap;
-  padding-left: 12px;
-}
-.ledger-total td {
-  border-bottom: none;
-  border-top: 2px solid var(--gold);
-  padding-top: 10px;
-  font-family: var(--heading);
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  color: var(--crimson);
-  text-transform: uppercase;
-}
-.ledger-total td:last-child { color: var(--crimson); }
-
-/* Grand total box */
-.grand-box {
-  background: var(--ink);
-  border: 2px solid var(--gold);
-  padding: 22px 16px;
-  text-align: center;
-  position: relative;
-  box-shadow: inset 0 0 40px rgba(184,134,11,0.07);
-}
-.grand-box::before {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(184,134,11,0.25);
-  pointer-events: none;
-}
-.grand-label {
-  font-family: var(--heading);
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--parch3);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.grand-value {
-  font-family: var(--display);
-  font-size: clamp(28px, 9vw, 50px);
-  color: var(--gold3);
-  line-height: 1;
-  text-shadow: 0 0 30px rgba(240,192,64,0.25);
-}
-.grand-sub {
-  margin-top: 14px;
-  display: inline-block;
-  font-family: var(--heading);
-  font-size: 11px;
-  letter-spacing: 2px;
-  padding: 6px 18px;
-  border: 1px solid;
-  text-transform: uppercase;
-}
-.grand-sub.profit { color: #5abf9a; border-color: #5abf9a; background: rgba(90,191,154,0.07); }
-.grand-sub.loss   { color: var(--crim3); border-color: var(--crim3); background: rgba(165,37,53,0.1); }
-
-/* ══ FOOTER ══ */
-.footer {
-  text-align: center;
-  margin-top: 40px;
-  padding-top: 22px;
-  border-top: 1px solid var(--parch3);
-}
-.footer::before {
-  content: '⚜';
-  display: block;
-  font-size: 24px;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-.footer p {
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 14px;
-  color: var(--ink3);
-  line-height: 2.2;
-}
-
-/* ══ ENTRANCE ANIMATIONS ══ */
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
-.header  { animation: fadeUp 0.7s ease both; }
-.grid    { animation: fadeUp 0.7s 0.15s ease both; }
-.results { animation: fadeUp 0.7s 0.3s ease both; }
-.footer  { animation: fadeUp 0.7s 0.45s ease both; }
+.tt-profit-label{font-family:var(--heading);font-size:10px;color:var(--teal);letter-spacing:1px;text-transform:uppercase;}
+.tt-profit-val{font-family:var(--heading);font-size:14px;color:var(--teal2);}
+.tt-profit-val.neg{color:var(--crim3);}
 </style>
 </head>
 <body>
 
 <div class="app">
+<div class="grimoire">
 
-  <!-- HEADER -->
-  <header class="header">
-    <span class="crest">☕</span>
-    <h1>The Coffee Ledger</h1>
-    <div class="subtitle">A Merchant's Reckoning of Costs &amp; Yields</div>
-    <p class="byline">Enter thy quantities below and let the ledger reveal thy fortunes</p>
-  </header>
-
-  <!-- INPUT PANELS -->
-  <div class="section-label"><span>I. The Commodities</span></div>
-  <div class="grid">
-
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-icon">🌱</span>
-        <span class="panel-title">Green Beans</span>
-        <span class="panel-stage">Chapter I</span>
-      </div>
-      <div class="field">
-        <label>Pounds Purchased</label>
-        <div class="input-wrap">
-          <input type="number" id="bean_lbs" value="1000" min="0" step="1" inputmode="numeric" oninput="calc()" />
-        </div>
-        <div class="field-hint">Sacks of raw green coffee acquired</div>
-      </div>
-      <div class="field">
-        <label>Cost Per Pound</label>
-        <div class="input-wrap">
-          <span class="prefix">$</span>
-          <input type="number" id="bean_cost" value="3.50" min="0" step="0.01" inputmode="decimal" oninput="calc()" />
-        </div>
-        <div class="field-hint">Price paid at the market per lb</div>
-      </div>
+  <!-- ── TITLE BAND ── -->
+  <div class="title-band">
+    <div class="title-orn">✦ ── ✦ ── ✦</div>
+    <div class="title-main">⚜ The Coffee Ledger</div>
+    <div class="title-sub">Merchant's Grimoire — Crafting &amp; Reckoning</div>
+    <div class="stock-strip">
+      <div class="si"><span class="si-label">Supply Remaining:</span><span class="si-val good" id="hdr_remaining">1000.0 lbs</span></div>
+      <div class="si"><span class="si-label">Total Roasted:</span><span class="si-val" id="hdr_roasted">0.0 lbs</span></div>
+      <div class="si"><span class="si-label">Bags Crafted:</span><span class="si-val" id="hdr_bags">0</span></div>
     </div>
-
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-icon">🔥</span>
-        <span class="panel-title">The Roast</span>
-        <span class="panel-stage">Chapter II</span>
-      </div>
-      <div class="field">
-        <label>Pounds Roasted</label>
-        <div class="input-wrap">
-          <input type="number" id="roast_lbs" value="100" min="0" step="1" inputmode="numeric" oninput="calc()" />
-        </div>
-        <div class="field-hint">Lbs passed through the roaster</div>
-      </div>
-      <div class="field">
-        <label>Roasting Cost (batch)</label>
-        <div class="input-wrap">
-          <span class="prefix">$</span>
-          <input type="number" id="roast_cost" value="120.00" min="0" step="0.01" inputmode="decimal" oninput="calc()" />
-        </div>
-        <div class="field-hint">Total toll of this roasting run</div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-icon">📦</span>
-        <span class="panel-title">The Vessels</span>
-        <span class="panel-stage">Chapter III</span>
-      </div>
-      <div class="field">
-        <label>Number of Bags Filled</label>
-        <div class="input-wrap">
-          <input type="number" id="bag_count" value="80" min="0" step="1" inputmode="numeric" oninput="calc()" />
-        </div>
-        <div class="field-hint">Parcels filled from the roast</div>
-      </div>
-      <div class="field">
-        <label>Cost Per Bag</label>
-        <div class="input-wrap">
-          <span class="prefix">$</span>
-          <input type="number" id="bag_cost" value="1.25" min="0" step="0.01" inputmode="decimal" oninput="calc()" />
-        </div>
-        <div class="field-hint">Price of each vessel &amp; closure</div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-icon">⚜️</span>
-        <span class="panel-title">The Yield</span>
-        <span class="panel-stage">Chapter IV</span>
-      </div>
-      <div class="field">
-        <label>Sell Price Per Bag</label>
-        <div class="input-wrap">
-          <span class="prefix">$</span>
-          <input type="number" id="sell_price" value="18.00" min="0" step="0.01" inputmode="decimal" oninput="calc()" />
-        </div>
-        <div class="field-hint">Asking price at the trading post</div>
-      </div>
-      <div class="field">
-        <label>Ounces Per Bag</label>
-        <div class="input-wrap">
-          <input type="number" id="oz_per_bag" value="12" min="1" step="1" inputmode="numeric" oninput="calc()" />
-        </div>
-        <div class="field-hint">Roasted measure per vessel (oz)</div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- RESULTS -->
-  <div class="section-label"><span>II. The Reckoning</span></div>
-  <div class="results">
-    <div class="results-title">Merchant's Accounts</div>
+  <!-- ── THREE-ZONE BODY ── -->
+  <div class="body-grid">
 
-    <div class="stat-grid">
-      <div class="stat-box">
-        <span class="stat-label">Bean Cost (batch)</span>
-        <div class="stat-value crimson" id="r_bean">$0.00</div>
+    <!-- ZONE 1: SUPPLY + COSTS -->
+    <div class="col">
+      <div class="col-head">
+        <span class="ch-icon">🏺</span>
+        <span class="ch-title">Supply</span>
+        <span class="ch-badge">Inventory</span>
       </div>
-      <div class="stat-box">
-        <span class="stat-label">Roasting Cost</span>
-        <div class="stat-value crimson" id="r_roast">$0.00</div>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Vessel Cost</span>
-        <div class="stat-value crimson" id="r_bags">$0.00</div>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Parcels Filled</span>
-        <div class="stat-value teal" id="r_count">0</div>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Cost / Bag</span>
-        <div class="stat-value" id="r_cpb">$0.00</div>
-      </div>
-      <div class="stat-box">
-        <span class="stat-label">Margin / Bag</span>
-        <div class="stat-value" id="r_margin">$0.00</div>
+      <div class="col-body">
+
+        <div class="supply-bar-wrap">
+          <div class="sbar-labels">
+            <span>Beans Available</span>
+            <span id="sbar_lbl">1000.0 lbs</span>
+          </div>
+          <div class="sbar-track"><div class="sbar-fill" id="supply_hp" style="width:100%"></div></div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-icon">🌾</span>
+          <div class="inv-info">
+            <div class="inv-name">Green Coffee Beans</div>
+            <div class="inv-hint">raw unroasted stock</div>
+            <div class="inv-fields">
+              <div class="inv-field">
+                <span class="if-label">Lbs</span>
+                <input type="number" class="no-pfx full" id="supply_lbs" value="1000" min="0" step="1" inputmode="numeric" oninput="saveGlobals();recalc()"/>
+              </div>
+              <div class="inv-field">
+                <span class="if-label">$/lb</span>
+                <div class="m-wrap" style="flex:1">
+                  <span class="pfx">$</span>
+                  <input type="number" class="full" id="bean_cost" value="3.50" min="0" step="0.01" inputmode="decimal" oninput="saveGlobals();recalc()"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-icon">⚗</span>
+          <div class="inv-info">
+            <div class="inv-name">Empty Bags</div>
+            <div class="inv-hint">packaging &amp; labels</div>
+            <div class="inv-fields">
+              <div class="inv-field">
+                <span class="if-label">$/ea</span>
+                <div class="m-wrap" style="flex:1">
+                  <span class="pfx">$</span>
+                  <input type="number" class="full" id="bag_cost" value="1.25" min="0" step="0.01" inputmode="decimal" oninput="saveGlobals();recalc()"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- divider -->
+        <div style="display:flex;align-items:center;gap:6px;margin:10px 0 8px;font-size:10px;color:var(--gold2);">
+          <span style="flex:1;height:1px;background:var(--parch4);display:block;"></span>✦<span style="flex:1;height:1px;background:var(--parch4);display:block;"></span>
+        </div>
+        <div style="font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Global Costs</div>
+
+        <div class="inv-row">
+          <span class="inv-icon">🕯</span>
+          <div class="inv-info">
+            <div class="inv-name">Roasting Fee</div>
+            <div class="inv-hint">per lb roasted</div>
+            <div class="inv-fields">
+              <div class="inv-field">
+                <span class="if-label">$/lb</span>
+                <div class="m-wrap" style="flex:1">
+                  <span class="pfx">$</span>
+                  <input type="number" class="full" id="roast_cost_lb" value="1.20" min="0" step="0.01" inputmode="decimal" oninput="saveGlobals();recalc()"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-icon">⚖</span>
+          <div class="inv-info">
+            <div class="inv-name">Roast Shrinkage</div>
+            <div class="inv-hint">% weight lost in roasting (~15%)</div>
+            <div class="inv-fields">
+              <div class="inv-field">
+                <span class="if-label">%</span>
+                <input type="number" class="no-pfx full" id="roast_loss" value="15" min="0" max="40" step="1" inputmode="numeric" oninput="saveGlobals();recalc()"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-icon">🐎</span>
+          <div class="inv-info">
+            <div class="inv-name">Fulfillment</div>
+            <div class="inv-hint">shipping &amp; handling</div>
+            <div class="inv-fields">
+              <div class="inv-field">
+                <span class="if-label">$/bag</span>
+                <div class="m-wrap" style="flex:1">
+                  <span class="pfx">$</span>
+                  <input type="number" class="full" id="fulfill_cost" value="2.50" min="0" step="0.01" inputmode="decimal" oninput="saveGlobals();recalc()"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-icon">🗝</span>
+          <div class="inv-info">
+            <div class="inv-name">Shopkeeper's Cut</div>
+            <div class="inv-hint">% of sell price to retailer / platform</div>
+            <div class="inv-fields">
+              <div class="inv-field">
+                <span class="if-label">%</span>
+                <input type="number" class="no-pfx full" id="shop_cut" value="30" min="0" max="100" step="1" inputmode="numeric" oninput="saveGlobals();recalc()"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="meter-label">Margin Gauge</div>
-    <div class="meter-track">
-      <div class="meter-fill" id="meter_fill" style="width:0%"></div>
+    <!-- ZONE 2: CRAFTING RECIPES -->
+    <div class="col">
+      <div class="col-head">
+        <span class="ch-icon">⚔️</span>
+        <span class="ch-title">Crafting Queue</span>
+        <span class="ch-badge">Recipes</span>
+      </div>
+      <div class="col-body">
+
+        <div class="supply-warn" id="supply_warn">⚠ Batches exceed supply — reduce lbs</div>
+
+        <p style="font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);margin-bottom:10px;">
+          Each recipe draws from thy supply. Add batches to craft thy products.
+        </p>
+
+        <div class="batch-list" id="batch_list"></div>
+
+        <button class="add-btn" onclick="addBatch()">✦ Add Recipe / Batch ✦</button>
+
+      </div>
     </div>
 
-    <div class="ornament">✦</div>
+    <!-- ZONE 3: LEDGER -->
+    <div class="col">
+      <div class="col-head">
+        <span class="ch-icon">📖</span>
+        <span class="ch-title">Grand Ledger</span>
+        <span class="ch-badge">Totals</span>
+      </div>
 
-    <table class="ledger">
-      <tbody>
-        <tr>
-          <td>Bean cost apportioned to roasted lbs</td>
-          <td id="b_bean">$0.00</td>
-        </tr>
-        <tr>
-          <td>Roasting charge</td>
-          <td id="b_roast">$0.00</td>
-        </tr>
-        <tr>
-          <td>Vessel &amp; packaging sum</td>
-          <td id="b_bags">$0.00</td>
-        </tr>
-        <tr class="ledger-total">
-          <td>Total Batch Cost</td>
-          <td id="b_total">$0.00</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="ledger-stat">
+        <span class="ls-label">Total Bags Crafted</span>
+        <span class="ls-val" id="g_bags">0</span>
+      </div>
+      <div class="ledger-stat">
+        <span class="ls-label">Total Cost</span>
+        <span class="ls-val crimson" id="g_cost">$0.00</span>
+      </div>
+      <div class="ledger-stat">
+        <span class="ls-label">Total Revenue</span>
+        <span class="ls-val gold" id="g_rev">$0.00</span>
+      </div>
+      <div class="ledger-stat">
+        <span class="ls-label">Net Profit</span>
+        <span class="ls-val teal" id="g_profit">$0.00</span>
+      </div>
+      <div class="ledger-stat">
+        <span class="ls-label">Cost per Bag</span>
+        <span class="ls-val" id="g_cpb">$0.00</span>
+      </div>
 
-    <div class="ornament">❧</div>
+      <div class="ledger-divider">✦</div>
 
-    <div class="grand-box">
-      <div class="grand-label">Total Revenue — All Parcels Sold</div>
-      <div class="grand-value" id="r_revenue">$0.00</div>
-      <div id="profit_badge"></div>
+      <div class="margin-wrap">
+        <div class="marg-labels">
+          <span>Overall Margin</span>
+          <span id="g_marg_pct">0.0%</span>
+        </div>
+        <div class="marg-track">
+          <div class="marg-fill" id="g_meter" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="revenue-box">
+        <div class="rev-lbl">Revenue — All Sold</div>
+        <div class="rev-val" id="g_rev_big">$0.00</div>
+        <div id="profit_chip_wrap"></div>
+      </div>
+
     </div>
 
+  </div><!-- /body-grid -->
+
+  <!-- ── FOOTER BAND ── -->
+  <div class="footer-band">
+    <p>
+      <span class="footer-orn">⚜</span>
+      The Coffee Ledger &nbsp;·&nbsp; Merchant's Grimoire &nbsp;·&nbsp; Anno Domini MMXXIV
+      <span class="footer-orn">⚜</span>
+    </p>
+    <div class="verse-wrap">
+      <div class="verse-orn">✦</div>
+      <div class="verse-text" id="verse_text"></div>
+      <div class="verse-ref"  id="verse_ref"></div>
+    </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>The Coffee Ledger &nbsp;·&nbsp; Est. Anno Domini MMXXIV</p>
-    <p><em>May thy margins be ever in thy favour</em></p>
-  </footer>
+</div><!-- /grimoire -->
+</div><!-- /app -->
 
+<!-- TOOLTIP OVERLAY -->
+<div class="tt-overlay" id="tt_overlay" onclick="closeTooltip(event)">
+  <div class="tt-card" onclick="event.stopPropagation()">
+    <div class="tt-header">
+      <span>📖</span>
+      <span class="tt-title" id="tt_title">Recipe Breakdown</span>
+      <button class="tt-close" onclick="closeTooltip()">✕</button>
+    </div>
+    <div class="tt-body" id="tt_body"></div>
+  </div>
 </div>
 
 <script>
-function fmt(n){
-  return '$' + Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+let batches = [], batchId = 0;
+function fmt(n){ return '$' + Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+// ── Persistence ──
+const SAVE_KEYS = ['supply_lbs','bean_cost','bag_cost','roast_cost_lb','roast_loss','fulfill_cost','shop_cut'];
+
+function saveGlobals(){
+  const data = {};
+  SAVE_KEYS.forEach(k => {
+    const el = document.getElementById(k);
+    if(el) data[k] = el.value;
+  });
+  try { localStorage.setItem('coffee_ledger_globals', JSON.stringify(data)); } catch(e){}
 }
 
-function calc(){
-  const bLbs      = parseFloat(document.getElementById('bean_lbs').value)  || 0;
-  const bCost     = parseFloat(document.getElementById('bean_cost').value)  || 0;
-  const rLbs      = parseFloat(document.getElementById('roast_lbs').value)  || 0;
-  const rCost     = parseFloat(document.getElementById('roast_cost').value) || 0;
-  const bags      = parseFloat(document.getElementById('bag_count').value)  || 0;
-  const bagCost   = parseFloat(document.getElementById('bag_cost').value)   || 0;
-  const sellPrice = parseFloat(document.getElementById('sell_price').value) || 0;
+function loadGlobals(){
+  try {
+    const raw = localStorage.getItem('coffee_ledger_globals');
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    SAVE_KEYS.forEach(k => {
+      const el = document.getElementById(k);
+      if(el && data[k] !== undefined) el.value = data[k];
+    });
+  } catch(e){}
+}
 
-  const beanTotal    = bLbs * bCost;
-  const beanForRoast = (bLbs > 0 && rLbs > 0) ? (rLbs / bLbs) * beanTotal : 0;
-  const bagsTotal    = bags * bagCost;
-  const totalCost    = beanForRoast + rCost + bagsTotal;
-  const costPerBag   = bags > 0 ? totalCost / bags : 0;
-  const marginPerBag = sellPrice - costPerBag;
-  const totalRevenue = bags * sellPrice;
-  const totalProfit  = totalRevenue - totalCost;
-  const marginPct    = sellPrice > 0 ? (marginPerBag / sellPrice) * 100 : 0;
+function addBatch(){
+  batchId++;
+  batches.push({id: batchId, name: 'Recipe ' + String(batchId).padStart(2,'0'), lbs: 100, ozPerBag: 12, sellPrice: 18});
+  renderBatches();
+  recalc();
+  const body = document.getElementById('bcb_' + batchId);
+  const tog  = document.getElementById('bct_' + batchId);
+  if(body) body.classList.add('open');
+  if(tog)  tog.classList.add('open');
+}
 
-  document.getElementById('r_bean').textContent  = fmt(beanForRoast);
-  document.getElementById('r_roast').textContent = fmt(rCost);
-  document.getElementById('r_bags').textContent  = fmt(bagsTotal);
-  document.getElementById('r_count').textContent = Math.round(bags);
-  document.getElementById('r_cpb').textContent   = fmt(costPerBag);
+function removeBatch(id){
+  batches = batches.filter(b => b.id !== id);
+  renderBatches(); recalc();
+}
 
-  const mEl = document.getElementById('r_margin');
-  mEl.textContent = (marginPerBag < 0 ? '-' : '') + fmt(marginPerBag);
-  mEl.style.color = marginPerBag >= 0 ? '#5abf9a' : '#a52535';
+function toggleBatch(id){
+  document.getElementById('bcb_' + id).classList.toggle('open');
+  document.getElementById('bct_' + id).classList.toggle('open');
+}
 
-  document.getElementById('b_bean').textContent   = fmt(beanForRoast);
-  document.getElementById('b_roast').textContent  = fmt(rCost);
-  document.getElementById('b_bags').textContent   = fmt(bagsTotal);
-  document.getElementById('b_total').textContent  = fmt(totalCost);
-  document.getElementById('r_revenue').textContent = fmt(totalRevenue);
+function renderBatches(){
+  const list = document.getElementById('batch_list');
+  list.innerHTML = '';
+  batches.forEach((b, i) => {
+    const div = document.createElement('div');
+    div.className = 'batch-card';
+    div.innerHTML = `
+      <div class="bc-head" onclick="toggleBatch(${b.id})">
+        <span class="bc-num">Ch.${String(i+1).padStart(2,'0')}</span>
+        <input class="bc-name" value="${b.name}"
+          onclick="event.stopPropagation()"
+          oninput="batches.find(x=>x.id==${b.id}).name=this.value"/>
+        <span class="bc-tog" id="bct_${b.id}">▶</span>
+        <button class="bc-del" onclick="event.stopPropagation();removeBatch(${b.id})">✕</button>
+      </div>
+      <div class="bc-body open" id="bcb_${b.id}">
+        <div class="bc-fields">
+          <div class="bc-field">
+            <label>🌾 Lbs to Roast</label>
+            <input type="number" class="no-pfx full" value="${b.lbs}" min="0" step="1" inputmode="numeric"
+              oninput="batches.find(x=>x.id==${b.id}).lbs=+this.value||0;recalc()"/>
+          </div>
+          <div class="bc-field">
+            <label>⚗ Bag Size (oz)</label>
+            <input type="number" class="no-pfx full" value="${b.ozPerBag}" min="1" step="1" inputmode="numeric"
+              oninput="batches.find(x=>x.id==${b.id}).ozPerBag=+this.value||12;recalc()"/>
+          </div>
+          <div class="bc-field">
+            <label>⚜ Sell Price</label>
+            <div class="m-wrap" style="width:100%">
+              <span class="pfx">$</span>
+              <input type="number" class="full" value="${b.sellPrice}" min="0" step="0.01" inputmode="decimal"
+                oninput="batches.find(x=>x.id==${b.id}).sellPrice=+this.value||0;recalc()"/>
+            </div>
+          </div>
+        </div>
+        <div class="bc-autos">
+          <div class="bc-auto"><span class="bca-lbl">Roasted Lbs</span><span class="bca-val" id="ac_rl_${b.id}">—</span></div>
+          <div class="bc-auto"><span class="bca-lbl">Bags Made</span><span class="bca-val" id="ac_bg_${b.id}">—</span></div>
+          <div class="bc-auto"><span class="bca-lbl">Keep / Bag</span><span class="bca-val" id="ac_nt_${b.id}">—</span></div>
+        </div>
+        <div class="bc-ubar"><div class="bc-ufill" id="ub_${b.id}" style="width:0%"></div></div>
+      </div>
+      <div class="bc-strip">
+        <div class="bcs-cell"><span class="bcs-lbl">Cost</span><span class="bcs-val" id="br_c_${b.id}">—</span></div>
+        <div class="bcs-cell"><span class="bcs-lbl">Revenue</span><span class="bcs-val gold" id="br_r_${b.id}">—</span></div>
+        <div class="bcs-cell"><span class="bcs-lbl">Profit</span><span class="bcs-val" id="br_p_${b.id}">—</span></div>
+        <div class="bcs-cell"><span class="bcs-lbl">Margin</span><span class="bcs-val" id="br_m_${b.id}">—</span></div>
+        <div class="bcs-cell" style="flex:0;display:flex;align-items:center;padding:4px 8px;">
+          <button class="tt-btn" onclick="showTooltip(${b.id})">? Details</button>
+        </div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
 
-  const fill = document.getElementById('meter_fill');
-  const pct  = Math.max(0, Math.min(100, marginPct));
-  fill.style.width      = pct + '%';
-  fill.style.background = marginPct >= 30 ? '#245c48' : marginPct >= 10 ? '#b8860b' : '#6b0f1a';
+function recalc(){
+  const supplyLbs     = parseFloat(document.getElementById('supply_lbs').value)     || 0;
+  const beanCost      = parseFloat(document.getElementById('bean_cost').value)      || 0;
+  const bagCost       = parseFloat(document.getElementById('bag_cost').value)       || 0;
+  const roastCostLb   = parseFloat(document.getElementById('roast_cost_lb').value)  || 0;
+  const roastLoss     = parseFloat(document.getElementById('roast_loss').value)      || 0;
+  const fulfillCost   = parseFloat(document.getElementById('fulfill_cost').value)   || 0;
+  const shopCutPct    = parseFloat(document.getElementById('shop_cut').value)       || 0;
 
-  const badge = document.getElementById('profit_badge');
-  if (bags > 0 && sellPrice > 0) {
-    const cls = totalProfit >= 0 ? 'profit' : 'loss';
-    const sym = totalProfit >= 0 ? '▲ Profit' : '▼ Loss';
-    badge.innerHTML = `<span class="grand-sub ${cls}">${sym}: ${(totalProfit < 0 ? '-' : '') + fmt(totalProfit)}</span>`;
-  } else {
-    badge.innerHTML = '';
+  let usedLbs=0, totalBags=0, totalCost=0, totalRev=0, totalRoasted=0;
+
+  batches.forEach(b => {
+    const lbs        = b.lbs || 0;
+    const roastedLbs = lbs * (1 - roastLoss / 100);
+    const bags       = Math.floor(roastedLbs * 16 / (b.ozPerBag || 12));
+    const sell       = b.sellPrice || 0;
+    const shopCutPer = sell * (shopCutPct / 100);
+    const netPerBag  = sell - fulfillCost - shopCutPer;
+    const bCost      = lbs*beanCost + lbs*roastCostLb + bags*bagCost + bags*fulfillCost + bags*shopCutPer;
+    const bRev       = bags * sell;
+    const bProfit    = bRev - bCost;
+    const bMarg      = bRev > 0 ? (bProfit / bRev) * 100 : 0;
+
+    usedLbs      += lbs;
+    totalRoasted += roastedLbs;
+    totalBags    += bags;
+    totalCost    += bCost;
+    totalRev     += bRev;
+
+    const $= (id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    $('ac_rl_'+b.id, roastedLbs.toFixed(1)+' lbs');
+    $('ac_bg_'+b.id, bags.toLocaleString());
+    const ne=document.getElementById('ac_nt_'+b.id);
+    if(ne){ne.textContent=(netPerBag<0?'-':'')+fmt(netPerBag);ne.className='bca-val'+(netPerBag>=0?'':' bad');}
+    const ub=document.getElementById('ub_'+b.id);
+    if(ub){ub.style.width=(supplyLbs>0?Math.min(100,(lbs/supplyLbs)*100):0)+'%';ub.style.background=usedLbs>supplyLbs?'var(--crim3)':'var(--teal2)';}
+    $('br_c_'+b.id, fmt(bCost));
+    $('br_r_'+b.id, fmt(bRev));
+    const pe=document.getElementById('br_p_'+b.id);
+    if(pe){pe.textContent=(bProfit<0?'-':'')+fmt(bProfit);pe.className='bcs-val '+(bProfit>=0?'good':'bad');}
+    const me=document.getElementById('br_m_'+b.id);
+    if(me){me.textContent=bMarg.toFixed(1)+'%';me.className='bcs-val '+(bMarg>=20?'good':bMarg>=0?'gold':'bad');}
+  });
+
+  const totalProfit = totalRev - totalCost;
+  const overallMarg = totalRev > 0 ? (totalProfit / totalRev) * 100 : 0;
+  const remaining   = supplyLbs - usedLbs;
+  const supplyPct   = supplyLbs > 0 ? Math.max(0, Math.min(100, (remaining / supplyLbs) * 100)) : 100;
+
+  const $= (id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+
+  // Header
+  const re=document.getElementById('hdr_remaining');
+  if(re){re.textContent=Math.max(0,remaining).toFixed(1)+' lbs';re.className='si-val'+(remaining<0?' over':remaining<supplyLbs*0.2?' warn':' good');}
+  $('hdr_roasted', totalRoasted.toFixed(1)+' lbs');
+  $('hdr_bags',    totalBags.toLocaleString());
+
+  // Supply bar
+  const hp=document.getElementById('supply_hp');
+  if(hp){hp.style.width=supplyPct+'%';hp.style.background=remaining<0?'var(--crim3)':remaining<supplyLbs*0.2?'var(--gold2)':'var(--teal2)';}
+  $('sbar_lbl', Math.max(0,remaining).toFixed(1)+' lbs');
+
+  // Warning
+  const w=document.getElementById('supply_warn');
+  if(w) w.className='supply-warn'+(usedLbs>supplyLbs?' show':'');
+
+  // Ledger
+  $('g_bags',   totalBags.toLocaleString());
+  $('g_cost',   fmt(totalCost));
+  $('g_rev',    fmt(totalRev));
+  const cpb = totalBags > 0 ? totalCost / totalBags : 0;
+  $('g_cpb', fmt(cpb));
+  const gpe=document.getElementById('g_profit');
+  if(gpe){gpe.textContent=(totalProfit<0?'-':'')+fmt(totalProfit);gpe.className='ls-val '+(totalProfit>=0?'teal':'crimson');}
+  const mPct=Math.max(0,Math.min(100,overallMarg));
+  const gm=document.getElementById('g_meter');
+  if(gm){gm.style.width=mPct+'%';gm.style.background=overallMarg>=30?'var(--teal2)':overallMarg>=10?'var(--gold2)':'var(--crim3)';}
+  $('g_marg_pct', overallMarg.toFixed(1)+'%');
+  $('g_rev_big',  fmt(totalRev));
+  const cw=document.getElementById('profit_chip_wrap');
+  if(cw){
+    if(totalBags>0){
+      const cls=totalProfit>=0?'pos':'neg';
+      const sym=totalProfit>=0?'▲ Profit':'▼ Loss';
+      cw.innerHTML=`<span class="profit-chip ${cls}">${sym}: ${totalProfit<0?'-':''}${fmt(totalProfit)}</span>`;
+    } else cw.innerHTML='';
   }
 }
 
-calc();
+loadGlobals();
+addBatch();
+
+function closeTooltip(e){
+  if(!e || e.target === document.getElementById('tt_overlay'))
+    document.getElementById('tt_overlay').classList.remove('open');
+}
+
+function showTooltip(id){
+  const b = batches.find(x => x.id === id);
+  if(!b) return;
+
+  const supplyLbs   = parseFloat(document.getElementById('supply_lbs').value)    || 0;
+  const beanCost    = parseFloat(document.getElementById('bean_cost').value)     || 0;
+  const bagCost     = parseFloat(document.getElementById('bag_cost').value)      || 0;
+  const roastCostLb = parseFloat(document.getElementById('roast_cost_lb').value) || 0;
+  const roastLoss   = parseFloat(document.getElementById('roast_loss').value)     || 0;
+  const fulfillCost = parseFloat(document.getElementById('fulfill_cost').value)  || 0;
+  const shopCutPct  = parseFloat(document.getElementById('shop_cut').value)      || 0;
+
+  const lbs           = b.lbs || 0;
+  const roastedLbs    = lbs * (1 - roastLoss / 100);
+  const bags          = Math.floor(roastedLbs * 16 / (b.ozPerBag || 12));
+  const sell          = b.sellPrice || 0;
+  const shopCutPer    = sell * (shopCutPct / 100);
+  const netPerBag     = sell - fulfillCost - shopCutPer;
+
+  // Per-batch cost lines
+  const lineBeanCost    = lbs * beanCost;
+  const lineRoastCost   = lbs * roastCostLb;
+  const lineBagCost     = bags * bagCost;
+  const lineFulfill     = bags * fulfillCost;
+  const lineShopCut     = bags * shopCutPer;
+  const totalCost       = lineBeanCost + lineRoastCost + lineBagCost + lineFulfill + lineShopCut;
+  const totalRevenue    = bags * sell;
+  const totalProfit     = totalRevenue - totalCost;
+  const marginPct       = totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0;
+  const costPerBag      = bags > 0 ? totalCost / bags : 0;
+
+  const pSign = n => n < 0 ? '-' : '';
+  const profClass = totalProfit >= 0 ? '' : ' neg';
+
+  document.getElementById('tt_title').textContent = b.name + ' — Full Breakdown';
+
+  document.getElementById('tt_body').innerHTML = `
+
+    <div class="tt-section">Production</div>
+
+    <div class="tt-row">
+      <span class="tt-row-label">🌾 Green beans</span>
+      <span class="tt-row-sub">${lbs} lbs × ${fmt(beanCost)}/lb</span>
+      <span class="tt-row-val crimson">${fmt(lineBeanCost)}</span>
+    </div>
+    <div class="tt-row">
+      <span class="tt-row-label">🕯 Roasting fee</span>
+      <span class="tt-row-sub">${lbs} lbs × ${fmt(roastCostLb)}/lb</span>
+      <span class="tt-row-val crimson">${fmt(lineRoastCost)}</span>
+    </div>
+    <div class="tt-row">
+      <span class="tt-row-label">⚖ Shrinkage</span>
+      <span class="tt-row-sub">${lbs} lbs → ${roastedLbs.toFixed(1)} lbs roasted</span>
+      <span class="tt-row-val" style="color:var(--ink3);font-size:12px;">−${roastLoss}%</span>
+    </div>
+
+    <div class="tt-section">Packaging &amp; Fulfilment</div>
+
+    <div class="tt-row">
+      <span class="tt-row-label">⚗ Bag materials</span>
+      <span class="tt-row-sub">${bags} bags × ${fmt(bagCost)}/bag</span>
+      <span class="tt-row-val crimson">${fmt(lineBagCost)}</span>
+    </div>
+    <div class="tt-row">
+      <span class="tt-row-label">🐎 Fulfillment</span>
+      <span class="tt-row-sub">${bags} bags × ${fmt(fulfillCost)}/bag</span>
+      <span class="tt-row-val crimson">${fmt(lineFulfill)}</span>
+    </div>
+
+    <div class="tt-section">Sales</div>
+
+    <div class="tt-row">
+      <span class="tt-row-label">⚜ Sell price</span>
+      <span class="tt-row-sub">${bags} bags × ${fmt(sell)}/bag</span>
+      <span class="tt-row-val teal">${fmt(totalRevenue)}</span>
+    </div>
+    <div class="tt-row">
+      <span class="tt-row-label">🗝 Shopkeeper's cut</span>
+      <span class="tt-row-sub">${bags} bags × ${shopCutPct}% of ${fmt(sell)}</span>
+      <span class="tt-row-val crimson">−${fmt(lineShopCut)}</span>
+    </div>
+    <div class="tt-row">
+      <span class="tt-row-label">⚗ Bag size</span>
+      <span class="tt-row-sub">${roastedLbs.toFixed(1)} lbs roasted ÷ ${b.ozPerBag} oz/bag</span>
+      <span class="tt-row-val">${bags} bags</span>
+    </div>
+    <div class="tt-row">
+      <span class="tt-row-label">✋ You keep / bag</span>
+      <span class="tt-row-sub">after fulfil &amp; shop cut</span>
+      <span class="tt-row-val ${netPerBag >= 0 ? 'teal' : 'crimson'}">${pSign(netPerBag)}${fmt(netPerBag)}</span>
+    </div>
+
+    <div class="tt-section">Summary</div>
+
+    <div class="tt-row">
+      <span class="tt-row-label">Cost per bag</span>
+      <span class="tt-row-sub">all costs ÷ ${bags} bags</span>
+      <span class="tt-row-val">${fmt(costPerBag)}</span>
+    </div>
+
+    <div class="tt-total">
+      <span class="tt-total-label">Total Batch Cost</span>
+      <span class="tt-total-val">${fmt(totalCost)}</span>
+    </div>
+    <div class="tt-profit-row">
+      <span class="tt-profit-label">Net Profit</span>
+      <span class="tt-profit-val${profClass}">${pSign(totalProfit)}${fmt(totalProfit)} &nbsp;(${marginPct.toFixed(1)}% margin)</span>
+    </div>
+  `;
+
+  document.getElementById('tt_overlay').classList.add('open');
+}
+
+// ── Rotating Scripture ──
+const verses = [
+  { text: "Whatever you do, work heartily, as for the Lord and not for men.", ref: "Colossians 3:23" },
+  { text: "The plans of the diligent lead surely to abundance, but everyone who is hasty comes only to poverty.", ref: "Proverbs 21:5" },
+  { text: "In all toil there is profit, but mere talk tends only to poverty.", ref: "Proverbs 14:23" },
+  { text: "Do you see a man skillful in his work? He will stand before kings; he will not stand before obscure men.", ref: "Proverbs 22:29" },
+  { text: "The soul of the sluggard craves and gets nothing, while the soul of the diligent is richly supplied.", ref: "Proverbs 13:4" },
+  { text: "Commit your work to the Lord, and your plans will be established.", ref: "Proverbs 16:3" },
+  { text: "For even when we were with you, we would give you this command: if anyone is not willing to work, let him not eat.", ref: "2 Thessalonians 3:10" },
+  { text: "A slack hand causes poverty, but the hand of the diligent makes rich.", ref: "Proverbs 10:4" },
+  { text: "She considers a field and buys it; with the fruit of her hands she plants a vineyard.", ref: "Proverbs 31:16" },
+  { text: "Let the thief no longer steal, but rather let him labor, doing honest work with his own hands.", ref: "Ephesians 4:28" },
+  { text: "The hardworking farmer should be the first to receive a share of the crops.", ref: "2 Timothy 2:6" },
+  { text: "Go to the ant, O sluggard; consider her ways, and be wise.", ref: "Proverbs 6:6" },
+  { text: "She sets about her work vigorously; her arms are strong for her tasks.", ref: "Proverbs 31:17" },
+  { text: "Whatever your hand finds to do, do it with all your might.", ref: "Ecclesiastes 9:10" },
+  { text: "The LORD your God will bless you in all your harvest and in all the work of your hands.", ref: "Deuteronomy 16:15" },
+];
+
+let verseIdx = Math.floor(Math.random() * verses.length);
+
+function showVerse(){
+  const vt = document.getElementById('verse_text');
+  const vr = document.getElementById('verse_ref');
+  if(!vt || !vr) return;
+  vt.style.opacity = '0'; vr.style.opacity = '0';
+  setTimeout(() => {
+    vt.textContent = '\u201c' + verses[verseIdx].text + '\u201d';
+    vr.textContent = '— ' + verses[verseIdx].ref;
+    vt.style.opacity = '1'; vr.style.opacity = '1';
+    verseIdx = (verseIdx + 1) % verses.length;
+  }, 600);
+}
+
+showVerse();
+setInterval(showVerse, 9000);
 </script>
 </body>
 </html>
