@@ -1052,7 +1052,7 @@ function addBatch(){
   batchId++;
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
-  batches.push({id: batchId, name: 'Recipe ' + String(batchId).padStart(2,'0'), lbs: 100, ozPerBag: 12, sellPrice: 18, date: dateStr});  renderBatches();
+  batches.unshift({id: batchId, name: 'Recipe ' + String(batchId).padStart(2,'0'), lbs: 100, ozPerBag: 12, sellPrice: 18, date: dateStr});  renderBatches();
   recalc();
   const body = document.getElementById('bcb_' + batchId);
   const tog  = document.getElementById('bct_' + batchId);
