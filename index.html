@@ -305,12 +305,12 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 /* Add batch btn */
 .add-btn{
   width:100%;background:var(--panel2);
-  border:none;border-top:1px dashed var(--parch4);
+  border:none;border-bottom:1px dashed var(--parch4);
   color:var(--gold);font-family:var(--heading);
   font-size:10px;letter-spacing:1.5px;
   padding:9px;cursor:pointer;text-align:center;
   text-transform:uppercase;transition:background 0.15s,color 0.15s;
-  margin-top:8px;
+  margin-bottom:10px;
 }
 .add-btn:hover{background:var(--panel3);color:var(--crimson);}
 
@@ -894,9 +894,9 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
           Each recipe draws from thy supply. Add batches to craft thy products.
         </p>
 
-        <div class="batch-list" id="batch_list"></div>
-
         <button class="add-btn" onclick="addBatch()">☕ Add Recipe / Batch ✦</button>
+
+        <div class="batch-list" id="batch_list"></div>
 
       </div>
     </div>
