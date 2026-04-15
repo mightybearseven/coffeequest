@@ -3,107 +3,137 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<meta name="theme-color" content="#2a1e0a"/>
+<meta name="theme-color" content="#f4ede4"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<title>The Coffee Ledger — Merchant's Grimoire</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<title>Coffee Ledger — Roastery Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
 :root{
-  /* World background — dark stone surround */
-  --world:      #241c10;
-  /* Panel surfaces — muted ecru/linen parchment, less yellow */
-  --parch:      #ede4d0;
-  --parch2:     #e4d9c0;
-  --parch3:     #d8ccb0;
-  --parch4:     #b89e72;
-  --parch-dark: #6e5020;
-  --panel:      #eae0cc;
-  --panel2:     #e0d4b8;
-  --panel3:     #d4c8a4;
-  --panel-sh:   rgba(10,6,0,0.55);
-  /* Text — deep ink on parchment */
-  --ink:        #1e1408;
-  --ink2:       #2e1e0c;
-  --ink3:       #6a4a1e;
-  /* Crimson */
-  --crimson:    #7a0f18;
-  --crim2:      #9a1a22;
-  --crim3:      #b82030;
-  /* Gold — less saturated, more bronze */
-  --gold:       #886010;
-  --gold2:      #a07018;
-  /* Teal */
-  --teal:       #1a5030;
-  --teal2:      #226840;
-  --display:    'Cinzel Decorative', serif;
-  --heading:    'Cinzel', serif;
-  --body:       'IM Fell English', serif;
+  /* ── MD3 Coffee Seed Palette ──────────────────
+     Primary:    warm terracotta / roasted brown
+     Secondary:  dusty sage green
+     Tertiary:   amber / golden crema
+     Error:      muted rose-red                  */
+
+  /* Surfaces (MD3 surface tones) */
+  --md-bg:          #fdf8f4;   /* surface dim */
+  --md-surface:     #fffbff;   /* surface */
+  --md-surf2:       #f4ede4;   /* surface container low */
+  --md-surf3:       #ede5d9;   /* surface container */
+  --md-surf4:       #e3dbd0;   /* surface container high */
+  --md-outline:     #c4b9ac;   /* outline */
+  --md-outline2:    #e8dfd6;   /* outline variant */
+
+  /* Primary — roasted coffee brown */
+  --md-primary:     #7c4f2a;
+  --md-on-primary:  #ffffff;
+  --md-prim-c:      #f4ddc8;   /* primary container */
+  --md-on-prim-c:   #2d1100;
+
+  /* Secondary — sage green */
+  --md-secondary:   #6a6040;
+  --md-on-second:   #ffffff;
+  --md-sec-c:       #f3e5be;
+  --md-on-sec-c:    #221b00;
+
+  /* Tertiary — amber crema */
+  --md-tertiary:    #4a6741;
+  --md-on-tert:     #ffffff;
+  --md-tert-c:      #cbedc1;
+  --md-on-tert-c:   #072100;
+
+  /* Error */
+  --md-error:       #ba1a1a;
+  --md-err-c:       #ffdad6;
+  --md-on-err:      #ffffff;
+
+  /* On-surface text */
+  --ink:    #1e1208;
+  --ink2:   #4d392b;
+  --ink3:   #7c6a5b;
+
+  /* Aliases for compatibility */
+  --world:      var(--md-bg);
+  --parch:      var(--md-surface);
+  --parch2:     var(--md-surf2);
+  --parch3:     var(--md-surf3);
+  --parch4:     var(--md-outline2);
+  --parch-dark: var(--md-outline);
+  --panel:      var(--md-surface);
+  --panel2:     var(--md-surf2);
+  --panel3:     var(--md-surf3);
+  --panel-sh:   rgba(30,18,8,0.08);
+  --crimson:    var(--md-error);
+  --crim2:      #e03030;
+  --crim3:      #f4a0a0;
+  --gold:       var(--md-secondary);
+  --gold2:      #8a7a40;
+  --teal:       var(--md-tertiary);
+  --teal2:      #5c7e53;
+  --teal3:      #78a46e;
+  --indigo:     var(--md-primary);
+  --indigo2:    #a0693c;
+
+  --display:    'Fraunces', serif;
+  --heading:    'Inter', sans-serif;
+  --body:       'Inter', sans-serif;
 }
 
 html,body{
   min-height:100vh;
-  background:var(--world);
+  background:var(--md-bg);
   color:var(--ink);
   font-family:var(--body);
   font-size:15px;
+  -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
 
-body::before{
-  content:'';position:fixed;inset:0;
-  background:
-    repeating-linear-gradient(0deg,  transparent,transparent 39px,rgba(0,0,0,0.14) 39px,rgba(0,0,0,0.18) 40px),
-    repeating-linear-gradient(90deg, transparent,transparent 39px,rgba(0,0,0,0.10) 39px,rgba(0,0,0,0.12) 40px);
-  pointer-events:none;z-index:0;
-}
+
 
 .app{
   position:relative;z-index:1;
   max-width:1000px;
   margin:0 auto;
-  padding:14px 12px 40px;
+  padding:16px 12px 48px;
 }
-@media(min-width:640px){.app{padding:22px 20px 50px;}}
+@media(min-width:640px){.app{padding:28px 24px 56px;}}
 
 /* ══════════ OUTER FRAME ══════════
    One unified parchment frame that
    holds everything — no gaps        */
 .grimoire{
-  background:var(--panel);
-  border:3px solid var(--parch4);
-  border-bottom:4px solid var(--parch-dark);
-  box-shadow:5px 5px 0 var(--panel-sh), 0 0 0 1px rgba(122,90,30,0.2);
+  background:var(--md-surface);
+  border:none;
+  border-radius:28px;
+  box-shadow:0 2px 6px rgba(30,18,8,0.06), 0 8px 32px rgba(30,18,8,0.08);
+  overflow:hidden;
   position:relative;
 }
-.grimoire::before{
-  content:'';position:absolute;inset:5px;
-  border:1px solid rgba(180,135,30,0.25);
-  pointer-events:none;z-index:0;
-}
+
 
 /* ══════════ TITLE BAND ══════════ */
 .title-band{
-  background:linear-gradient(180deg,var(--panel2),var(--panel3));
-  border-bottom:2px solid var(--parch4);
-  padding:14px 18px 12px;
+  background:var(--md-primary);
+  padding:24px 20px 18px;
   text-align:center;
   position:relative;z-index:1;
 }
-.title-orn{font-family:var(--heading);font-size:10px;color:var(--gold2);letter-spacing:8px;margin-bottom:8px;}
+.title-orn{font-family:var(--heading);font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:4px;margin-bottom:10px;font-weight:600;}
 .title-main{
   font-family:var(--display);
-  font-size:clamp(15px,3.8vw,26px);
-  color:var(--crimson);
-  letter-spacing:2px;
-  text-shadow:1px 1px 0 rgba(180,135,30,0.3), 2px 2px 6px rgba(10,6,0,0.15);
+  font-size:clamp(20px,4.5vw,32px);
+  color:var(--md-on-primary);
+  letter-spacing:-0.5px;
+  font-weight:700;
   margin-bottom:4px;
 }
 .title-sub{
   font-family:var(--heading);
-  font-size:clamp(8px,1.8vw,11px);
-  color:var(--ink3);letter-spacing:3px;text-transform:uppercase;
+  font-size:clamp(11px,2vw,13px);
+  color:rgba(255,255,255,0.65);letter-spacing:1px;text-transform:uppercase;font-weight:500;
 }
 
 /* stock strip inside title */
@@ -111,14 +141,14 @@ body::before{
   display:flex;flex-wrap:wrap;justify-content:center;
   gap:4px 20px;
   margin-top:10px;padding-top:8px;
-  border-top:1px solid var(--parch4);
+  border-top:1px solid rgba(255,255,255,0.18);
 }
-.si{display:flex;align-items:center;gap:5px;font-family:var(--heading);font-size:10px;letter-spacing:0.5px;}
-.si-label{color:var(--ink3);}
-.si-val{color:var(--crimson);font-weight:600;}
-.si-val.good{color:var(--teal2);}
-.si-val.warn{color:var(--gold);}
-.si-val.over{color:var(--crim3);}
+.si{display:flex;align-items:center;gap:5px;font-family:var(--body);font-size:11px;font-weight:500;}
+.si-label{color:rgba(255,255,255,0.7);}
+.si-val{color:#ffffff;font-weight:600;}
+.si-val.good{color:#b9f0a8;}
+.si-val.warn{color:#fde68a;}
+.si-val.over{color:#fca5a5;}
 
 /* ══════════ THREE-ZONE BODY ══════════
    Supply | Recipes | Ledger
@@ -136,126 +166,136 @@ body::before{
 
 /* Vertical dividers between columns */
 .col{
-  border-right:1px solid var(--parch3);
+  border-right:1px solid var(--md-outline2);
   display:flex;flex-direction:column;
 }
 .col:last-child{border-right:none;}
 
 /* On mobile, horizontal dividers instead */
 @media(max-width:679px){
-  .col{border-right:none;border-bottom:2px solid var(--parch4);}
+  .col{border-right:none;border-bottom:1px solid var(--parch4);}
   .col:last-child{border-bottom:none;}
 }
 
 /* ══════════ COL HEADERS ══════════ */
 .col-head{
-  background:linear-gradient(180deg,var(--panel2),var(--panel3));
-  border-bottom:2px solid var(--parch4);
-  padding:7px 14px;
-  display:flex;align-items:center;gap:7px;
+  background:var(--md-surf2);
+  border-bottom:1px solid var(--md-outline2);
+  padding:12px 16px;
+  display:flex;align-items:center;gap:8px;
   flex-shrink:0;
 }
-.ch-icon{font-size:14px;color:var(--gold2);}
+.ch-icon{font-size:18px;color:var(--md-primary);}
 .ch-title{
   font-family:var(--heading);
-  font-size:10px;color:var(--crimson);
-  letter-spacing:1.5px;text-transform:uppercase;font-weight:700;
+  font-size:13px;color:var(--md-primary);
+  letter-spacing:0.3px;text-transform:uppercase;font-weight:700;
 }
 .ch-badge{
   margin-left:auto;
-  font-family:var(--body);font-style:italic;
-  font-size:11px;color:var(--ink3);
+  font-family:var(--body);
+  font-size:11px;color:var(--ink3);font-weight:400;
 }
 
-.col-body{padding:10px 12px;flex:1;}
+.col-body{padding:12px 14px;flex:1;}
 
 /* ══════════ SUPPLY SECTION ══════════ */
 .supply-bar-wrap{margin-bottom:10px;}
 .sbar-labels{
-  display:flex;justify-content:space-between;
-  font-family:var(--heading);font-size:9px;
-  color:var(--ink3);letter-spacing:0.5px;margin-bottom:3px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--body);font-size:11px;font-weight:500;
+  color:var(--ink2);margin-bottom:5px;
 }
 .sbar-track{
-  height:9px;background:rgba(26,14,4,0.12);
-  border:1px solid var(--parch4);overflow:hidden;
+  height:6px;background:var(--md-surf4);
+  border:none;border-radius:3px;overflow:hidden;
 }
 .sbar-fill{
   height:100%;transition:width 0.4s,background 0.4s;
-  background:var(--teal2);position:relative;
+  background:var(--md-tertiary);border-radius:3px;
 }
-.sbar-fill::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.25);}
 
 .inv-row{
   display:flex;align-items:flex-start;gap:8px;
-  padding:8px 0;border-bottom:1px solid rgba(200,168,90,0.4);
+  padding:10px 0;border-bottom:1px solid var(--md-outline2);
 }
 .inv-row:last-child{border-bottom:none;}
-.inv-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;padding-top:2px;color:var(--gold2);}
+.inv-icon{font-size:18px;width:26px;text-align:center;flex-shrink:0;padding-top:2px;color:var(--md-primary);}
 .inv-info{flex:1;min-width:0;}
-.inv-name{font-family:var(--heading);font-size:11px;color:var(--ink);letter-spacing:0.3px;margin-bottom:4px;}
-.inv-hint{font-family:var(--body);font-style:italic;font-size:11px;color:var(--ink3);}
+.inv-name{font-family:var(--heading);font-size:13px;color:var(--ink);font-weight:600;margin-bottom:3px;}
+.inv-hint{font-family:var(--body);font-size:11px;color:var(--ink3);line-height:1.4;}
 .inv-fields{margin-top:5px;display:flex;flex-direction:column;gap:4px;}
 .inv-field{display:flex;align-items:center;gap:5px;}
-.if-label{font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:0.5px;width:32px;flex-shrink:0;text-align:right;padding-right:4px;}
+.if-label{font-family:var(--body);font-size:10px;color:var(--ink3);font-weight:500;width:36px;flex-shrink:0;text-align:right;padding-right:6px;}
 
 /* ══════════ INPUTS ══════════ */
 .m-wrap{position:relative;display:inline-flex;align-items:center;}
 .m-wrap .pfx{
   position:absolute;left:6px;
   font-family:var(--heading);font-size:12px;
-  color:var(--gold2);pointer-events:none;font-weight:600;
+  color:var(--md-primary);pointer-events:none;font-weight:600;
 }
 input[type=number]{
-  background:rgba(26,14,4,0.06);
-  border:1px solid var(--parch3);
-  border-bottom:2px solid var(--gold);
+  background:var(--md-surf3);
+  border:none;
+  border-bottom:2px solid var(--md-outline);
+  border-radius:4px 4px 0 0;
   color:var(--ink);
-  font-family:var(--body);font-size:15px;
-  padding:4px 6px 4px 20px;
+  font-family:var(--body);font-size:14px;font-weight:400;
+  padding:6px 8px 6px 20px;
   outline:none;
   -moz-appearance:textfield;-webkit-appearance:none;appearance:none;
-  border-radius:0;min-height:32px;width:80px;
-  transition:border-color 0.15s,background 0.15s;
+  min-height:36px;width:80px;
+  transition:border-color 0.2s,background 0.2s;
 }
 input[type=number].no-pfx{padding-left:6px;}
 input[type=number].full{width:100%;}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
-input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,128,24,0.08);}
+input[type=number]:focus{border-bottom-color:var(--md-primary);background:var(--md-surf2);}
 
 /* ══════════ BATCH CARDS ══════════ */
 .batch-list{display:flex;flex-direction:column;gap:8px;}
 
 .supply-warn{
-  background:rgba(122,15,24,0.08);border:1px solid var(--crimson);
-  padding:5px 10px;font-family:var(--heading);font-size:10px;
-  color:var(--crimson);letter-spacing:0.5px;margin-bottom:8px;display:none;
+  background:var(--md-err-c);border:none;
+  border-radius:8px;
+  padding:8px 12px;font-family:var(--body);font-size:12px;font-weight:500;
+  color:var(--md-error);margin-bottom:10px;display:none;
 }
 .supply-warn.show{display:block;}
 
 .batch-card{
-  background:rgba(0,0,0,0.10);
-  border:1px solid var(--parch4);
+  background:var(--md-surface);
+  border:none;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 1px 2px rgba(30,18,8,0.06),0 3px 10px rgba(30,18,8,0.07);
+  transition:box-shadow 0.2s,transform 0.2s;
+}
+.batch-card:hover{
+  box-shadow:0 4px 8px rgba(30,18,8,0.08),0 8px 24px rgba(30,18,8,0.1);
+  transform:translateY(-1px);
 }
 .bc-head{
-  display:flex;align-items:center;gap:7px;
-  padding:6px 10px;
-  background:linear-gradient(180deg,var(--panel2),var(--panel3));
-  border-bottom:1px solid var(--parch4);
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;
+  background:var(--md-prim-c);
+  border-bottom:1px solid var(--md-outline2);
   cursor:pointer;user-select:none;
+  transition:background 0.2s;
 }
-.bc-head:hover{filter:brightness(0.97);}
-.bc-num{font-family:var(--heading);font-size:9px;color:var(--gold2);letter-spacing:0.5px;flex-shrink:0;}
+.bc-head:hover{background:#edcfb8;}
+.bc-num{font-family:var(--body);font-size:11px;color:var(--md-on-prim-c);font-weight:700;letter-spacing:0.3px;flex-shrink:0;background:var(--md-primary);color:var(--md-on-primary);border-radius:20px;padding:2px 8px;}
 .bc-name{
   flex:1;min-width:0;
   background:transparent;border:none;
-  border-bottom:1px solid rgba(200,168,90,0.4);
-  color:var(--ink);font-family:var(--heading);font-size:12px;
-  padding:1px 4px;outline:none;
+  border-bottom:1px solid var(--md-outline2);
+  color:var(--ink);font-family:var(--body);font-size:13px;font-weight:600;
+  padding:2px 6px;outline:none;
 }
-.bc-name:focus{border-bottom-color:var(--crimson);}
-.bc-tog{font-size:12px;color:var(--ink3);flex-shrink:0;transition:transform 0.15s;}
+.bc-name:focus{border-bottom-color:var(--md-primary);}
+.bc-tog{font-size:10px;color:var(--ink3);flex-shrink:0;transition:transform 0.15s;}
 .bc-tog.open{transform:rotate(90deg);}
 .bc-del{background:none;border:none;color:var(--crim3);font-size:13px;cursor:pointer;padding:0 2px;opacity:0.5;transition:opacity 0.15s;}
 .bc-del:hover{opacity:1;}
@@ -271,107 +311,109 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
   margin-bottom:7px;
 }
 .bc-field label{
-  display:block;font-family:var(--heading);
-  font-size:9px;color:var(--ink3);
-  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;
+  display:block;font-family:var(--body);
+  font-size:10px;font-weight:600;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:0.3px;margin-bottom:3px;
 }
 .bc-field input{width:100%;}
 
 /* Auto chips in a row */
 .bc-autos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:6px;}
-.bc-auto{background:rgba(26,14,4,0.08);border-left:2px solid var(--gold2);padding:4px 7px;}
-.bca-lbl{font-family:var(--heading);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.3px;display:block;margin-bottom:2px;}
-.bca-val{font-family:var(--body);font-size:14px;color:var(--teal2);}
+.bc-auto{background:var(--md-surf2);border:none;border-radius:12px;padding:6px 10px;}
+.bca-lbl{font-family:var(--body);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;font-weight:600;display:block;margin-bottom:3px;}
+.bca-val{font-family:var(--body);font-size:14px;color:var(--md-tertiary);font-weight:600;}
 .bca-val.bad{color:var(--crim3);}
 
 /* Usage bar */
-.bc-ubar{height:4px;background:rgba(26,14,4,0.1);border:1px solid var(--parch3);overflow:hidden;margin-bottom:1px;}
-.bc-ufill{height:100%;transition:width 0.4s,background 0.4s;background:var(--teal2);}
+.bc-ubar{height:4px;background:var(--md-surf4);border-radius:2px;overflow:hidden;margin-bottom:4px;}
+.bc-ufill{height:100%;transition:width 0.4s,background 0.4s;background:var(--md-tertiary);border-radius:2px;}
 
 /* result strip */
 .bc-strip{
   display:grid;grid-template-columns:repeat(4,1fr);
-  background:var(--panel2);
-  border-top:1px solid var(--parch4);
+  background:var(--md-surf2);
+  border-top:1px solid var(--md-outline2);
 }
-.bcs-cell{padding:5px 8px;border-right:1px solid rgba(200,168,90,0.3);}
+.bcs-cell{padding:6px 10px;border-right:1px solid var(--md-outline2);}
 .bcs-cell:last-child{border-right:none;}
-.bcs-lbl{font-family:var(--heading);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.3px;display:block;margin-bottom:2px;}
-.bcs-val{font-family:var(--body);font-size:14px;color:var(--ink);}
-.bcs-val.good{color:var(--teal2);}
+.bcs-lbl{font-family:var(--body);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;font-weight:600;display:block;margin-bottom:2px;}
+.bcs-val{font-family:var(--body);font-size:13px;color:var(--ink);font-weight:600;}
+.bcs-val.good{color:var(--md-tertiary);}
 .bcs-val.bad{color:var(--crim3);}
-.bcs-val.gold{color:var(--gold);}
+.bcs-val.gold{color:var(--md-secondary);}
 
 /* Add batch btn */
 .add-btn{
-  width:100%;background:var(--panel2);
-  border:none;border-bottom:1px dashed var(--parch4);
-  color:var(--gold);font-family:var(--heading);
-  font-size:10px;letter-spacing:1.5px;
-  padding:9px;cursor:pointer;text-align:center;
-  text-transform:uppercase;transition:background 0.15s,color 0.15s;
-  margin-bottom:10px;
+  width:100%;background:var(--md-primary);
+  border:none;border-radius:20px;
+  color:var(--md-on-primary);font-family:var(--body);
+  font-size:13px;font-weight:600;
+  padding:12px;cursor:pointer;text-align:center;
+  transition:background 0.2s,box-shadow 0.2s,transform 0.15s;
+  margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(124,79,42,0.3),0 4px 12px rgba(124,79,42,0.15);
+  letter-spacing:0.3px;
 }
-.add-btn:hover{background:var(--panel3);color:var(--crimson);}
+.add-btn:hover{background:#6b3f1d;box-shadow:0 4px 12px rgba(124,79,42,0.35);}
+.add-btn:active{transform:scale(0.98);}
 
 /* ══════════ LEDGER COL ══════════ */
 .ledger-stat{
-  padding:8px 12px;
-  border-bottom:1px solid rgba(200,168,90,0.4);
+  padding:12px 16px;
+  border-bottom:1px solid var(--md-outline2);
   display:flex;flex-direction:column;
 }
 .ledger-stat:last-child{border-bottom:none;}
-.ls-label{font-family:var(--heading);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
-.ls-val{font-family:var(--body);font-size:18px;color:var(--ink);}
-.ls-val.crimson{color:var(--crimson);}
-.ls-val.teal{color:var(--teal2);}
-.ls-val.gold{color:var(--gold);}
+.ls-label{font-family:var(--body);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.6px;font-weight:600;margin-bottom:5px;}
+.ls-val{font-family:var(--heading);font-size:20px;color:var(--ink);font-weight:700;}
+.ls-val.crimson{color:var(--md-error);}
+.ls-val.teal{color:var(--md-tertiary);}
+.ls-val.gold{color:var(--md-secondary);}
 
 .ledger-divider{
   display:flex;align-items:center;gap:6px;
-  padding:6px 12px;font-size:10px;color:var(--gold2);
+  padding:8px 14px;font-size:12px;color:var(--md-outline);
 }
-.ledger-divider::before,.ledger-divider::after{content:'';flex:1;height:1px;background:var(--parch4);}
+.ledger-divider::before,.ledger-divider::after{content:'';flex:1;height:1px;background:var(--md-outline2);}
 
-.margin-wrap{padding:6px 12px 8px;}
-.marg-labels{display:flex;justify-content:space-between;font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:0.3px;margin-bottom:4px;}
-.marg-track{height:9px;background:rgba(26,14,4,0.12);border:1px solid var(--parch4);overflow:hidden;}
-.marg-fill{height:100%;transition:width 0.5s,background 0.5s;position:relative;}
-.marg-fill::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.2);}
+.margin-wrap{padding:8px 14px 10px;}
+.marg-labels{display:flex;justify-content:space-between;font-family:var(--body);font-size:11px;color:var(--ink3);font-weight:500;margin-bottom:5px;}
+.marg-track{height:8px;background:var(--parch3);border:none;border-radius:4px;overflow:hidden;}
+.marg-fill{height:100%;transition:width 0.5s ease,background 0.5s;border-radius:3px;}
+
 
 .revenue-box{
   padding:14px 12px;text-align:center;
   border-top:1px solid var(--parch4);
 }
-.rev-lbl{font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.rev-lbl{font-family:var(--body);font-size:10px;color:var(--md-on-prim-c);letter-spacing:0.5px;text-transform:uppercase;font-weight:600;margin-bottom:8px;opacity:0.7;}
 .rev-val{
   font-family:var(--display);
   font-size:clamp(18px,3vw,26px);
-  color:var(--crimson);
-  letter-spacing:1px;
-  text-shadow:1px 1px 0 rgba(180,135,30,0.25);
-  margin-bottom:8px;
+  color:var(--md-primary);
+  letter-spacing:-0.5px;
+  margin-bottom:10px;
   word-break:break-all;
 }
 .profit-chip{
   display:inline-block;
-  font-family:var(--heading);font-size:10px;
-  padding:5px 12px;border:2px solid;
-  letter-spacing:1px;text-transform:uppercase;
+  font-family:var(--body);font-size:12px;font-weight:600;
+  padding:6px 16px;border-radius:20px;
+  letter-spacing:0.2px;
 }
-.profit-chip.pos{color:var(--teal);border-color:var(--teal);background:rgba(34,104,64,0.08);}
-.profit-chip.neg{color:var(--crimson);border-color:var(--crimson);background:rgba(122,15,24,0.08);}
+.profit-chip.pos{color:var(--md-on-tert-c);background:var(--md-tert-c);}
+.profit-chip.neg{color:var(--md-error);background:var(--md-err-c);}
 
 /* ══════════ FOOTER BAND ══════════ */
 .footer-band{
-  background:linear-gradient(180deg,var(--panel2),var(--panel3));
-  border-top:2px solid var(--parch4);
-  padding:8px 18px;
+  background:var(--md-surf2);
+  border-top:1px solid var(--md-outline2);
+  padding:14px 18px;
   text-align:center;
   position:relative;z-index:1;
 }
 .footer-band p{font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);line-height:2;}
-.footer-orn{color:var(--gold2);font-size:14px;margin:0 6px;}
+.footer-orn{color:var(--md-primary);font-size:16px;margin:0 8px;}
 
 .verse-wrap{
   margin-top:10px;
@@ -381,14 +423,14 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 }
 .verse-orn{
   font-family:var(--heading);
-  font-size:10px;color:var(--gold2);
-  letter-spacing:6px;margin-bottom:8px;
+  font-size:16px;color:var(--md-primary);
+  letter-spacing:4px;margin-bottom:10px;
 }
 .verse-text{
   font-family:var(--body);
   font-style:italic;
   font-size:14px;
-  color:var(--ink2);
+  color:var(--ink3);
   line-height:1.7;
   max-width:620px;
   margin:0 auto 6px;
@@ -398,8 +440,8 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 .verse-ref{
   font-family:var(--heading);
   font-size:10px;
-  color:var(--ink3);
-  letter-spacing:1.5px;
+  color:var(--md-primary);
+  letter-spacing:0.5px;
   text-transform:uppercase;
   transition:opacity 0.6s ease;
 }
@@ -407,36 +449,39 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 
 
 .tt-btn{
-  background:none;border:1px solid var(--parch4);
-  color:var(--ink3);font-family:var(--heading);
-  font-size:9px;letter-spacing:0.5px;
-  padding:2px 7px;cursor:pointer;
-  transition:background 0.1s,color 0.1s;
+  background:transparent;border:1px solid var(--md-primary);
+  border-radius:20px;
+  color:var(--md-primary);font-family:var(--body);
+  font-size:10px;font-weight:600;
+  padding:4px 10px;cursor:pointer;
+  transition:background 0.15s,color 0.15s,transform 0.1s;
   flex-shrink:0;
 }
-.tt-btn:hover{background:var(--panel3);color:var(--crimson);}
+.tt-btn:hover{background:var(--md-prim-c);}
+.tt-btn:active{transform:scale(0.95);}
 
 /* ── Draft batch date stamp ── */
 .bc-date-row{
   display:flex;align-items:center;
   gap:6px;
   margin-bottom:8px;
+  padding:4px 0;
 }
 .bc-date-icon{
   font-size:13px;flex-shrink:0;
 }
 .bc-date-input{
   font-family:var(--body);
-  font-style:italic;
-  font-size:13px;
+  font-size:12px;font-weight:400;
   color:var(--ink3);
-  background:transparent;
+  background:var(--md-surf3);
   border:none;
-  border-bottom:1px dashed var(--parch4);
+  border-bottom:1px solid var(--md-outline);
+  border-radius:4px 4px 0 0;
   outline:none;
-  padding:2px 4px;
+  padding:4px 8px;
   cursor:pointer;
-  transition:border-color 0.15s, color 0.15s;
+  transition:border-color 0.15s;
   -webkit-appearance:none;
   appearance:none;
   width:130px;
@@ -444,11 +489,10 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 .bc-date-input::-webkit-calendar-picker-indicator{
   opacity:0.5;
   cursor:pointer;
-  filter:sepia(1) saturate(2) hue-rotate(5deg);
+  filter:none;opacity:0.6;
 }
 .bc-date-input:focus{
-  color:var(--ink);
-  border-bottom-color:var(--crimson);
+  border-bottom-color:var(--md-primary);
   outline:none;
 }
 
@@ -457,68 +501,100 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
   margin-bottom:7px;
 }
 .bc-cap-text{
-  font-family:var(--body);font-style:italic;
-  font-size:12px;color:var(--ink3);
+  font-family:var(--body);
+  font-size:11px;color:var(--ink3);
   display:block;
-  padding:4px 6px;
-  background:rgba(26,14,4,0.05);
-  border-left:2px solid var(--parch4);
+  padding:6px 10px;
+  background:var(--md-tert-c);
+  border-radius:8px;
 }
 .bc-cap-text strong{
-  font-style:normal;
-  font-family:var(--heading);
-  font-size:11px;color:var(--teal2);
+  font-family:var(--body);
+  font-weight:700;font-size:11px;color:var(--md-on-tert-c);
 }
 .bc-cap-none{
-  color:var(--crim3);
-  border-left-color:var(--crim3);
+  background:var(--md-err-c);
+  color:var(--md-error);
 }
+
+
+/* ── Custom Cost add button ── */
+.cc-add-btn{
+  background:none;border:none;
+  color:var(--md-primary);
+  font-size:22px;font-weight:300;line-height:1;
+  padding:0 2px;cursor:pointer;
+  opacity:0.75;transition:opacity 0.15s,transform 0.1s;
+}
+.cc-add-btn:hover{opacity:1;}
+.cc-add-btn:active{transform:scale(0.88);}
+
+/* ── Custom Cost name + type controls ── */
+.cc-name-input{
+  font-family:var(--body);font-size:13px;font-weight:500;
+  color:var(--ink);background:var(--md-surf3);
+  border:none;border-bottom:1px solid var(--md-outline);
+  border-radius:4px 4px 0 0;
+  outline:none;padding:5px 8px;width:100%;
+  margin-bottom:5px;
+  transition:border-color 0.15s;
+}
+.cc-name-input:focus{border-bottom-color:var(--md-primary);}
+.cc-type-select{
+  font-family:var(--body);font-size:11px;font-weight:400;
+  color:var(--ink);background:var(--md-surf3);
+  border:none;border-bottom:1px solid var(--md-outline);
+  border-radius:4px 4px 0 0;
+  outline:none;padding:5px 6px;
+  cursor:pointer;
+  width:100px;
+}
+.cc-type-select:focus{border-bottom-color:var(--md-primary);}
 
 /* ── Export button ── */
 .export-btn{
   display:block;
   width:100%;
   margin-top:10px;
-  background:var(--teal);
-  border:none;
-  border-bottom:3px solid var(--teal2);
-  color:var(--parch);
-  font-family:var(--heading);
-  font-size:10px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  padding:11px;
+  background:var(--md-sec-c);
+  border:none;border-radius:20px;
+  color:var(--md-on-sec-c);
+  font-family:var(--body);
+  font-size:13px;font-weight:700;
+  padding:12px;
   cursor:pointer;
-  transition:background 0.15s, filter 0.15s;
+  transition:background 0.2s,transform 0.15s;
+  letter-spacing:0.3px;
 }
-.export-btn:hover{background:var(--teal2);}
-.export-btn:active{filter:brightness(0.9);transform:scale(0.99);}
+.export-btn:hover{background:#e8d6a8;}
+.export-btn:active{transform:scale(0.98);}
 
 /* ── Restock + button ── */
 .restock-btn{
-  background:none;
-  border:1px solid var(--parch4);
-  color:var(--gold2);
-  font-family:var(--heading);
-  font-size:13px;
-  width:22px;height:22px;
+  background:var(--md-primary);
+  border:none;
+  border-radius:50%;
+  color:var(--md-on-primary);
+  font-family:var(--body);
+  font-size:14px;font-weight:600;
+  width:24px;height:24px;
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;
   flex-shrink:0;
-  transition:background 0.1s, color 0.1s, border-color 0.1s;
+  transition:background 0.2s,box-shadow 0.2s,transform 0.15s;
   padding:0;line-height:1;
 }
 .restock-btn:hover{
-  background:var(--panel3);
-  color:var(--crimson);
-  border-color:var(--crimson);
+  background:#6b3f1d;
+  box-shadow:0 2px 8px rgba(124,79,42,0.3);
 }
+.restock-btn:active{transform:scale(0.92);}
 
 /* ── Restock modal overlay ── */
 .restock-overlay{
   display:none;
   position:fixed;inset:0;
-  background:rgba(10,6,0,0.6);
+  background:rgba(30,18,8,0.55);backdrop-filter:blur(6px);
   z-index:1000;
   align-items:center;justify-content:center;
   padding:20px;
@@ -526,107 +602,103 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 .restock-overlay.open{display:flex;}
 
 .restock-card{
-  background:var(--panel);
-  border:3px solid var(--parch4);
-  border-bottom:4px solid var(--parch-dark);
-  box-shadow:6px 6px 0 var(--panel-sh);
+  background:var(--md-surface);
+  border:none;
+  border-radius:28px;
+  box-shadow:0 8px 16px rgba(30,18,8,0.1),0 24px 64px rgba(30,18,8,0.15);
   width:100%;max-width:340px;
-  position:relative;
 }
-.restock-card::before{
-  content:'';position:absolute;inset:5px;
-  border:1px solid rgba(180,135,30,0.2);
-  pointer-events:none;
-}
+
 .restock-head{
-  background:linear-gradient(180deg,var(--panel2),var(--panel3));
-  border-bottom:2px solid var(--parch4);
-  padding:10px 14px;
+  background:var(--md-prim-c);
+  border-bottom:none;
+  border-radius:28px 28px 0 0;
+  padding:16px 20px;
   display:flex;align-items:center;gap:8px;
 }
 .restock-head-title{
-  font-family:var(--heading);font-size:12px;
-  color:var(--crimson);letter-spacing:1.5px;
-  text-transform:uppercase;font-weight:700;flex:1;
+  font-family:var(--heading);font-size:14px;
+  color:var(--md-on-prim-c);font-weight:700;flex:1;
 }
 .restock-close{
-  background:none;border:1px solid var(--parch4);
-  color:var(--ink3);font-size:14px;
-  cursor:pointer;padding:1px 8px;
-  transition:background 0.1s;
+  background:rgba(30,18,8,0.1);border:none;border-radius:50%;
+  color:var(--md-on-prim-c);font-size:14px;
+  cursor:pointer;padding:0;width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.15s;
 }
-.restock-close:hover{background:var(--crim3);color:var(--parch);}
+.restock-close:hover{background:rgba(30,18,8,0.18);}
 
-.restock-body{padding:18px 16px;}
+.restock-body{padding:20px;}
 
 .restock-current{
-  font-family:var(--body);font-style:italic;
+  font-family:var(--body);
   font-size:13px;color:var(--ink3);
   margin-bottom:14px;
 }
 .restock-current strong{
-  font-family:var(--heading);font-size:12px;
-  color:var(--ink);font-style:normal;
+  font-family:var(--body);font-size:13px;
+  color:var(--ink);font-weight:600;
 }
 
 .restock-field label{
   display:block;
-  font-family:var(--heading);font-size:10px;
-  color:var(--ink3);letter-spacing:1px;
-  text-transform:uppercase;margin-bottom:6px;
+  font-family:var(--body);font-size:11px;font-weight:600;
+  color:var(--ink3);text-transform:uppercase;margin-bottom:6px;
 }
 .restock-field input{
   width:100%;
-  background:rgba(26,14,4,0.06);
-  border:1px solid var(--parch3);
-  border-bottom:2px solid var(--gold);
+  background:var(--md-surf3);
+  border:none;
+  border-bottom:2px solid var(--md-outline);
+  border-radius:4px 4px 0 0;
   color:var(--ink);
-  font-family:var(--body);font-size:20px;
-  padding:8px 10px;outline:none;
+  font-family:var(--body);font-size:22px;font-weight:500;
+  padding:10px 12px;outline:none;
   -moz-appearance:textfield;-webkit-appearance:none;appearance:none;
-  border-radius:0;min-height:44px;
+  min-height:44px;
+  transition:border-color 0.2s;
 }
 .restock-field input::-webkit-inner-spin-button,
 .restock-field input::-webkit-outer-spin-button{-webkit-appearance:none;}
-.restock-field input:focus{border-bottom-color:var(--crimson);}
+.restock-field input:focus{border-bottom-color:var(--md-primary);}
 
 .restock-preview{
-  font-family:var(--body);font-style:italic;
+  font-family:var(--body);
   font-size:13px;color:var(--ink3);
   margin-top:8px;min-height:20px;
 }
-.restock-preview strong{color:var(--teal2);font-style:normal;font-family:var(--heading);font-size:12px;}
+.restock-preview strong{color:var(--teal2);font-weight:600;}
 
 .restock-actions{
   display:flex;gap:8px;margin-top:16px;
 }
 .restock-confirm{
   flex:1;
-  background:var(--crimson);
-  border:none;
-  color:var(--parch);
-  font-family:var(--heading);font-size:10px;
-  letter-spacing:1.5px;text-transform:uppercase;
+  background:var(--md-primary);
+  border:none;border-radius:20px;
+  color:var(--md-on-primary);
+  font-family:var(--body);font-size:13px;font-weight:600;
   padding:10px;cursor:pointer;
-  transition:background 0.15s;
+  transition:background 0.2s,transform 0.1s;
 }
-.restock-confirm:hover{background:var(--crim2);}
+.restock-confirm:hover{background:#6b3f1d;}
+.restock-confirm:active{transform:scale(0.97);}
 .restock-cancel{
-  background:none;
-  border:1px solid var(--parch4);
+  background:transparent;
+  border:1px solid var(--md-outline);border-radius:20px;
   color:var(--ink3);
-  font-family:var(--heading);font-size:10px;
-  letter-spacing:1px;text-transform:uppercase;
+  font-family:var(--body);font-size:13px;font-weight:500;
   padding:10px 16px;cursor:pointer;
-  transition:background 0.15s;
+  transition:background 0.2s;
 }
-.restock-cancel:hover{background:var(--panel3);}
+.restock-cancel:hover{background:var(--md-surf3);}
 
 /* Overlay backdrop */
 .tt-overlay{
   display:none;
   position:fixed;inset:0;
-  background:rgba(10,6,0,0.55);
+  background:rgba(15,23,42,0.5);backdrop-filter:blur(4px);
   z-index:900;
   align-items:center;justify-content:center;
   padding:16px;
@@ -635,23 +707,19 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 
 /* The popup card */
 .tt-card{
-  background:var(--panel);
-  border:3px solid var(--parch4);
-  border-bottom:4px solid var(--parch-dark);
-  box-shadow:6px 6px 0 var(--panel-sh);
+  background:var(--md-surface);
+  border:none;
+  border-radius:28px;
+  box-shadow:0 8px 16px rgba(30,18,8,0.1),0 24px 64px rgba(30,18,8,0.15);
   max-width:420px;
   width:100%;
-  position:relative;
 }
-.tt-card::before{
-  content:'';position:absolute;inset:5px;
-  border:1px solid rgba(176,120,24,0.2);
-  pointer-events:none;
-}
+
 .tt-header{
-  background:linear-gradient(180deg,var(--panel2),var(--panel3));
-  border-bottom:2px solid var(--parch4);
-  padding:10px 14px;
+  background:var(--md-prim-c);
+  border-bottom:none;
+  border-radius:28px 28px 0 0;
+  padding:16px 20px;
   display:flex;align-items:center;gap:8px;
 }
 .tt-title{
@@ -660,31 +728,33 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
   text-transform:uppercase;font-weight:700;flex:1;
 }
 .tt-close{
-  background:none;border:1px solid var(--parch4);
+  background:var(--parch3);border:none;
+  border-radius:50%;
   color:var(--ink3);font-size:14px;
-  cursor:pointer;padding:1px 8px;
+  cursor:pointer;padding:0;width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
   transition:background 0.1s;
 }
-.tt-close:hover{background:var(--crim3);color:var(--parch);}
+.tt-close:hover{background:var(--crim3);color:#fff;}
 
-.tt-body{padding:14px 16px;}
+.tt-body{padding:16px 20px 20px;}
 
 /* Section heading inside tooltip */
 .tt-section{
   font-family:var(--heading);font-size:9px;
-  color:var(--gold2);letter-spacing:2px;
+  color:var(--md-primary);letter-spacing:0.5px;
   text-transform:uppercase;
   margin:12px 0 6px;
   display:flex;align-items:center;gap:8px;
 }
-.tt-section::before,.tt-section::after{content:'';flex:1;height:1px;background:var(--parch4);}
+.tt-section::before,.tt-section::after{content:'';flex:1;height:1px;background:var(--md-outline2);}
 .tt-section:first-child{margin-top:0;}
 
 /* Individual breakdown rows */
 .tt-row{
   display:flex;justify-content:space-between;align-items:baseline;
   padding:4px 0;
-  border-bottom:1px solid rgba(200,168,90,0.25);
+  border-bottom:1px solid var(--md-outline2);
   gap:10px;
 }
 .tt-row:last-child{border-bottom:none;}
@@ -699,18 +769,18 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 .tt-total{
   display:flex;justify-content:space-between;align-items:baseline;
   padding:8px 0 4px;
-  border-top:2px solid var(--parch4);
-  margin-top:4px;gap:10px;
+  border-top:2px solid var(--md-outline2);
+  margin-top:6px;gap:10px;
 }
-.tt-total-label{font-family:var(--heading);font-size:10px;color:var(--crimson);letter-spacing:1px;text-transform:uppercase;}
-.tt-total-val{font-family:var(--heading);font-size:14px;color:var(--crimson);}
+.tt-total-label{font-family:var(--body);font-size:10px;color:var(--crimson);font-weight:600;text-transform:uppercase;}
+.tt-total-val{font-family:var(--body);font-size:14px;color:var(--crimson);font-weight:700;}
 
 .tt-profit-row{
   display:flex;justify-content:space-between;align-items:baseline;
   padding:4px 0;gap:10px;
 }
-.tt-profit-label{font-family:var(--heading);font-size:10px;color:var(--teal);letter-spacing:1px;text-transform:uppercase;}
-.tt-profit-val{font-family:var(--heading);font-size:14px;color:var(--teal2);}
+.tt-profit-label{font-family:var(--body);font-size:10px;color:var(--teal2);font-weight:600;text-transform:uppercase;}
+.tt-profit-val{font-family:var(--body);font-size:14px;color:var(--teal2);font-weight:700;}
 .tt-profit-val.neg{color:var(--crim3);}
 </style>
 </head>
@@ -721,13 +791,13 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 
   <!-- ── TITLE BAND ── -->
   <div class="title-band">
-    <div class="title-orn">☕ ── ✦ ── ☕</div>
-    <div class="title-main">☕ The Coffee Ledger</div>
-    <div class="title-sub">Merchant's Grimoire — Crafting &amp; Reckoning ☕</div>
+    <div class="title-orn">☕</div>
+    <div class="title-main">Coffee Ledger</div>
+    <div class="title-sub">Roastery Manager</div>
     <div class="stock-strip">
-      <div class="si"><span class="si-label">Supply Remaining:</span><span class="si-val good" id="hdr_remaining">1000.0 lbs</span></div>
-      <div class="si"><span class="si-label">Total Roasted:</span><span class="si-val" id="hdr_roasted">0.0 lbs</span></div>
-      <div class="si"><span class="si-label">Bags Crafted:</span><span class="si-val" id="hdr_bags">0</span></div>
+      <div class="si"><span class="si-label">Beans:</span><span class="si-val good" id="hdr_remaining">1000.0 lbs</span></div>
+      <div class="si"><span class="si-label">Roasted:</span><span class="si-val" id="hdr_roasted">0.0 lbs</span></div>
+      <div class="si"><span class="si-label">Bags:</span><span class="si-val" id="hdr_bags">0</span></div>
     </div>
   </div>
 
@@ -737,9 +807,9 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
     <!-- ZONE 1: SUPPLY + COSTS -->
     <div class="col">
       <div class="col-head">
-        <span class="ch-icon">🏺</span>
+        <span class="ch-icon">📦</span>
         <span class="ch-title">Supply</span>
-        <span class="ch-badge">Inventory</span>
+        <span class="ch-badge">stock</span>
       </div>
       <div class="col-body">
 
@@ -766,10 +836,10 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         </div>
 
         <div class="inv-row">
-          <span class="inv-icon">🌾</span>
+          <span class="inv-icon">🌱</span>
           <div class="inv-info">
             <div class="inv-name">Green Coffee Beans</div>
-            <div class="inv-hint">raw unroasted stock</div>
+            <div class="inv-hint">unroasted beans in stock</div>
             <div class="inv-fields">
               <div class="inv-field">
                 <span class="if-label">Lbs</span>
@@ -787,10 +857,10 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         </div>
 
         <div class="inv-row">
-          <span class="inv-icon">⚗</span>
+          <span class="inv-icon">🛍️</span>
           <div class="inv-info">
             <div class="inv-name">Empty Bags</div>
-            <div class="inv-hint">packaging &amp; labels</div>
+            <div class="inv-hint">bags &amp; packaging</div>
             <div class="inv-fields">
               <div class="inv-field">
                 <span class="if-label">Qty</span>
@@ -814,7 +884,7 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         <div style="font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Global Costs</div>
 
         <div class="inv-row">
-          <span class="inv-icon">🕯</span>
+          <span class="inv-icon">🔥</span>
           <div class="inv-info">
             <div class="inv-name">Roasting Fee</div>
             <div class="inv-hint">per lb roasted</div>
@@ -831,10 +901,10 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         </div>
 
         <div class="inv-row">
-          <span class="inv-icon">⚖</span>
+          <span class="inv-icon">📉</span>
           <div class="inv-info">
             <div class="inv-name">Roast Shrinkage</div>
-            <div class="inv-hint">% weight lost in roasting (~15%)</div>
+            <div class="inv-hint">% weight lost during roasting (~15%)</div>
             <div class="inv-fields">
               <div class="inv-field">
                 <span class="if-label">%</span>
@@ -845,10 +915,10 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         </div>
 
         <div class="inv-row">
-          <span class="inv-icon">🐎</span>
+          <span class="inv-icon">🚚</span>
           <div class="inv-info">
             <div class="inv-name">Fulfillment</div>
-            <div class="inv-hint">shipping &amp; handling</div>
+            <div class="inv-hint">shipping &amp; handling per bag</div>
             <div class="inv-fields">
               <div class="inv-field">
                 <span class="if-label">$/bag</span>
@@ -862,10 +932,10 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         </div>
 
         <div class="inv-row">
-          <span class="inv-icon">🗝</span>
+          <span class="inv-icon">🏪</span>
           <div class="inv-info">
-            <div class="inv-name">Shopkeeper's Cut</div>
-            <div class="inv-hint">% of sell price to retailer / platform</div>
+            <div class="inv-name">Platform / Retailer Fee</div>
+            <div class="inv-hint">% of sell price taken by retailer or platform</div>
             <div class="inv-fields">
               <div class="inv-field">
                 <span class="if-label">%</span>
@@ -875,26 +945,29 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
           </div>
         </div>
 
+        <!-- Custom configurable costs -->
+        <div id="custom_costs_container"></div>
+
       </div>
     </div>
 
     <!-- ZONE 2: CRAFTING RECIPES -->
     <div class="col">
       <div class="col-head">
-        <span class="ch-icon">⚔️</span>
-        <span class="ch-title">Crafting Queue</span>
-        <span class="ch-badge">Recipes</span>
+        <span class="ch-icon">🧪</span>
+        <span class="ch-title">Recipes</span>
+        <span class="ch-badge">queue</span>
       </div>
       <div class="col-body">
 
-        <div class="supply-warn" id="supply_warn">⚠ ☕ Batches exceed supply — reduce lbs</div>
-        <div class="supply-warn" id="bag_warn">⚠ ☕ Batches require more bags than purchased</div>
+        <div class="supply-warn" id="supply_warn">⚠ Batches exceed bean supply</div>
+        <div class="supply-warn" id="bag_warn">⚠ Batches require more bags than in stock</div>
 
         <p style="font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);margin-bottom:10px;">
-          Each recipe draws from thy supply. Add batches to craft thy products.
+          Each recipe pulls from your bean and bag supply. Add recipes below to calculate costs and margins.
         </p>
 
-        <button class="add-btn" onclick="addBatch()">☕ Add Recipe / Batch ✦</button>
+        <button class="add-btn" onclick="addBatch()">+ New Recipe</button>
 
         <div class="batch-list" id="batch_list"></div>
 
@@ -904,13 +977,13 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
     <!-- ZONE 3: LEDGER -->
     <div class="col">
       <div class="col-head">
-        <span class="ch-icon">📖</span>
-        <span class="ch-title">Grand Ledger</span>
-        <span class="ch-badge">Totals</span>
+        <span class="ch-icon">📊</span>
+        <span class="ch-title">Summary</span>
+        <span class="ch-badge">ledger</span>
       </div>
 
       <div class="ledger-stat">
-        <span class="ls-label">Total Bags Crafted</span>
+        <span class="ls-label">Total Bags</span>
         <span class="ls-val" id="g_bags">0</span>
       </div>
       <div class="ledger-stat">
@@ -930,7 +1003,7 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
         <span class="ls-val" id="g_cpb">$0.00</span>
       </div>
 
-      <div class="ledger-divider">✦</div>
+      <div class="ledger-divider"></div>
 
       <div class="margin-wrap">
         <div class="marg-labels">
@@ -949,7 +1022,7 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
       </div>
 
       <button class="export-btn" onclick="exportToExcel()">
-        ⚜ Export to Excel
+        ↓ Export to Excel
       </button>
 
     </div>
@@ -960,11 +1033,11 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
   <div class="footer-band">
     <p>
       <span class="footer-orn">☕</span>
-      The Coffee Ledger &nbsp;·&nbsp; Merchant's Grimoire &nbsp;·&nbsp; Anno Domini MMXXIV
+      Coffee Ledger &nbsp;·&nbsp; Roastery Manager
       <span class="footer-orn">☕</span>
     </p>
     <div class="verse-wrap">
-      <div class="verse-orn">✦</div>
+      <div class="verse-orn">☕</div>
       <div class="verse-text" id="verse_text"></div>
       <div class="verse-ref"  id="verse_ref"></div>
     </div>
@@ -989,7 +1062,7 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
 <div class="restock-overlay" id="restock_overlay" onclick="closeRestock(event)">
   <div class="restock-card" onclick="event.stopPropagation()">
     <div class="restock-head">
-      <span id="restock_icon">🌾</span>
+      <span id="restock_icon">🌱</span>
       <span class="restock-head-title" id="restock_title">Restock Beans</span>
       <button class="restock-close" onclick="closeRestock()">✕</button>
     </div>
@@ -1003,7 +1076,7 @@ input[type=number]:focus{border-bottom-color:var(--crimson);background:rgba(184,
       <div class="restock-preview" id="restock_preview"></div>
       <div class="restock-actions">
         <button class="restock-cancel" onclick="closeRestock()">Cancel</button>
-        <button class="restock-confirm" onclick="confirmRestock()">⚜ Add to Stock</button>
+        <button class="restock-confirm" onclick="confirmRestock()">+ Add to Stock</button>
       </div>
     </div>
   </div>
@@ -1022,6 +1095,111 @@ function fromISODate(iso){
   if(!iso) return '';
   try{ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}); }
   catch(e){ return iso; }
+}
+
+// ── Custom Configurable Costs ──
+let customCosts = [];
+
+function saveCustomCosts(){
+  try{ localStorage.setItem('coffee_ledger_custom_costs', JSON.stringify(customCosts)); }catch(e){}
+}
+function loadCustomCosts(){
+  try{
+    const raw = localStorage.getItem('coffee_ledger_custom_costs');
+    if(raw) customCosts = JSON.parse(raw);
+  }catch(e){}
+  renderCustomCosts();
+}
+
+function addCustomCost(){
+  const uid = 'cc' + Date.now();
+  customCosts.push({id: uid, name: 'Custom Cost', type: 'flat', value: 0});
+  saveCustomCosts();
+  renderCustomCosts();
+  recalc();
+}
+
+function removeCustomCost(id){
+  customCosts = customCosts.filter(cc => cc.id !== id);
+  saveCustomCosts();
+  renderCustomCosts();
+  recalc();
+}
+
+function renderCustomCosts(){
+  const container = document.getElementById('custom_costs_container');
+  if(!container) return;
+  container.innerHTML = '';
+
+  // Divider header with + add button
+  const hdr = document.createElement('div');
+  hdr.innerHTML = `
+    <div style="display:flex;align-items:center;gap:6px;margin:10px 0 6px;font-size:10px;color:var(--gold2);">
+      <span style="flex:1;height:1px;background:var(--parch4);display:block;"></span>+
+      <span style="flex:1;height:1px;background:var(--parch4);display:block;"></span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <span style="font-family:var(--heading);font-size:9px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;">Custom Costs</span>
+      <button class="cc-add-btn" onclick="addCustomCost()" title="Add custom cost">+</button>
+    </div>`;
+  container.appendChild(hdr);
+
+  if(customCosts.length === 0){
+    const empty = document.createElement('div');
+    empty.style.cssText = 'font-family:var(--body);font-style:italic;font-size:12px;color:var(--ink3);padding:4px 0 8px;';
+    empty.textContent = 'No custom costs configured. Click + Add to add one.';
+    container.appendChild(empty);
+    return;
+  }
+
+  customCosts.forEach(cc => {
+    const labelHints = {flat:'$/bag', pct:'%', perlb:'$/lb'};
+
+    const row = document.createElement('div');
+    row.className = 'inv-row';
+    row.style.position = 'relative';
+    row.innerHTML = `
+      <span class="inv-icon" style="color:var(--md-primary);font-size:20px;font-weight:700;line-height:1;">•</span>
+      <div class="inv-info">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <input class="cc-name-input" value="${cc.name}" title="Click to rename"
+            oninput="customCosts.find(x=>x.id=='${cc.id}').name=this.value;saveCustomCosts();recalc()"
+            placeholder="Cost name" style="flex:1;"/>
+          <button onclick="removeCustomCost('${cc.id}')" title="Remove"
+            style="background:none;border:none;color:var(--crim3);font-size:13px;cursor:pointer;padding:0 2px;opacity:0.55;transition:opacity 0.15s;flex-shrink:0;"
+            onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.55">✕</button>
+        </div>
+        <div class="inv-fields">
+          <div class="inv-field">
+            <span class="if-label">Type</span>
+            <select class="cc-type-select" onchange="customCosts.find(x=>x.id=='${cc.id}').type=this.value;saveCustomCosts();renderCustomCosts();recalc()">
+              <option value="flat"  ${cc.type==='flat'  ?'selected':''}>Flat / bag</option>
+              <option value="pct"   ${cc.type==='pct'   ?'selected':''}>% of sale</option>
+              <option value="perlb" ${cc.type==='perlb' ?'selected':''}>Per lb</option>
+            </select>
+          </div>
+          <div class="inv-field">
+            <span class="if-label">${labelHints[cc.type]}</span>
+            ${cc.type !== 'pct'
+              ? `<div class="m-wrap"><span class="pfx">$</span><input type="number" class="full" value="${cc.value}" min="0" step="0.01" inputmode="decimal" oninput="customCosts.find(x=>x.id=='${cc.id}').value=+this.value||0;saveCustomCosts();recalc()"/></div>`
+              : `<input type="number" class="no-pfx full" value="${cc.value}" min="0" step="0.01" inputmode="decimal" oninput="customCosts.find(x=>x.id=='${cc.id}').value=+this.value||0;saveCustomCosts();recalc()"/>`}
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(row);
+  });
+}
+
+function calcCustomCostForBatch(lbs, bags, sell){
+  // Returns total custom cost for this batch
+  let total = 0;
+  customCosts.forEach(cc => {
+    const v = cc.value || 0;
+    if(cc.type === 'flat')  total += bags * v;
+    else if(cc.type === 'pct')   total += bags * sell * (v / 100);
+    else if(cc.type === 'perlb') total += lbs * v;
+  });
+  return total;
 }
 
 // ── Persistence ──
@@ -1079,7 +1257,7 @@ function renderBatches(){
     div.className = 'batch-card';
     div.innerHTML = `
       <div class="bc-head" onclick="toggleBatch(${b.id})">
-        <span class="bc-num">Ch.${String(i+1).padStart(2,'0')}</span>
+        <span class="bc-num">#${String(i+1).padStart(2,'0')}</span>
         <input class="bc-name" value="${b.name}"
           onclick="event.stopPropagation()"
           oninput="batches.find(x=>x.id==${b.id}).name=this.value"/>
@@ -1095,17 +1273,17 @@ function renderBatches(){
         </div>
         <div class="bc-fields">
           <div class="bc-field">
-            <label>🌾 Lbs to Roast</label>
+            <label>🌱 Lbs to Roast</label>
             <input type="number" class="no-pfx full" value="${b.lbs}" min="0" step="1" inputmode="numeric"
               oninput="batches.find(x=>x.id==${b.id}).lbs=+this.value||0;recalc()"/>
           </div>
           <div class="bc-field">
-            <label>⚗ Bag Size (oz)</label>
+            <label>🛍️ Bag Size (oz)</label>
             <input type="number" class="no-pfx full" value="${b.ozPerBag}" min="1" step="1" inputmode="numeric"
               oninput="batches.find(x=>x.id==${b.id}).ozPerBag=+this.value||12;recalc()"/>
           </div>
           <div class="bc-field">
-            <label>⚜ Sell Price</label>
+            <label>💰 Sell Price</label>
             <div class="m-wrap" style="width:100%">
               <span class="pfx">$</span>
               <input type="number" class="full" value="${b.sellPrice}" min="0" step="0.01" inputmode="decimal"
@@ -1127,7 +1305,7 @@ function renderBatches(){
         <div class="bcs-cell"><span class="bcs-lbl">Profit</span><span class="bcs-val" id="br_p_${b.id}">—</span></div>
         <div class="bcs-cell"><span class="bcs-lbl">Margin</span><span class="bcs-val" id="br_m_${b.id}">—</span></div>
         <div class="bcs-cell" style="flex:0;display:flex;align-items:center;gap:5px;padding:4px 8px;">
-          <button class="tt-btn" onclick="showTooltip(${b.id})">? Details</button>
+          <button class="tt-btn" onclick="showTooltip(${b.id})">Details</button>
         </div>
       </div>`;
     list.appendChild(div);
@@ -1153,7 +1331,8 @@ function recalc(){
     const sell       = b.sellPrice || 0;
     const shopCutPer = sell * (shopCutPct / 100);
     const netPerBag  = sell - fulfillCost - shopCutPer;
-    const bCost      = lbs*beanCost + lbs*roastCostLb + bags*bagCost + bags*fulfillCost + bags*shopCutPer;
+    const customBatchCost = calcCustomCostForBatch(lbs, bags, sell);
+    const bCost      = lbs*beanCost + lbs*roastCostLb + bags*bagCost + bags*fulfillCost + bags*shopCutPer + customBatchCost;
     const bRev       = bags * sell;
     const bProfit    = bRev - bCost;
     const bMarg      = bRev > 0 ? (bProfit / bRev) * 100 : 0;
@@ -1258,6 +1437,7 @@ function recalc(){
 }
 
 loadGlobals();
+loadCustomCosts();
 addBatch();
 
 function closeTooltip(e){
@@ -1290,11 +1470,26 @@ function showTooltip(id){
   const lineBagCost     = bags * bagCost;
   const lineFulfill     = bags * fulfillCost;
   const lineShopCut     = bags * shopCutPer;
-  const totalCost       = lineBeanCost + lineRoastCost + lineBagCost + lineFulfill + lineShopCut;
+  const lineCustomTotal = calcCustomCostForBatch(lbs, bags, sell);
+  const totalCost       = lineBeanCost + lineRoastCost + lineBagCost + lineFulfill + lineShopCut + lineCustomTotal;
   const totalRevenue    = bags * sell;
   const totalProfit     = totalRevenue - totalCost;
   const marginPct       = totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0;
   const costPerBag      = bags > 0 ? totalCost / bags : 0;
+
+  // Build custom cost rows for tooltip
+  const customRows = customCosts.filter(cc => cc.value > 0).map(cc => {
+    const v = cc.value || 0;
+    let amt = 0, subLabel = '';
+    if(cc.type === 'flat')  { amt = bags * v;           subLabel = `${bags} bags × ${fmt(v)}/bag`; }
+    if(cc.type === 'pct')   { amt = bags * sell * v/100; subLabel = `${bags} bags × ${v}% of ${fmt(sell)}`; }
+    if(cc.type === 'perlb') { amt = lbs * v;            subLabel = `${lbs} lbs × ${fmt(v)}/lb`; }
+    return `<div class="tt-row">
+      <span class="tt-row-label">✳️ ${cc.name}</span>
+      <span class="tt-row-sub">${subLabel}</span>
+      <span class="tt-row-val crimson">${fmt(amt)}</span>
+    </div>`;
+  }).join('');
 
   const pSign = n => n < 0 ? '-' : '';
   const profClass = totalProfit >= 0 ? '' : ' neg';
@@ -1306,17 +1501,17 @@ function showTooltip(id){
     <div class="tt-section">Production</div>
 
     <div class="tt-row">
-      <span class="tt-row-label">🌾 Green beans</span>
+      <span class="tt-row-label">🌱 Green beans</span>
       <span class="tt-row-sub">${lbs} lbs × ${fmt(beanCost)}/lb</span>
       <span class="tt-row-val crimson">${fmt(lineBeanCost)}</span>
     </div>
     <div class="tt-row">
-      <span class="tt-row-label">🕯 Roasting fee</span>
+      <span class="tt-row-label">🔥 Roasting fee</span>
       <span class="tt-row-sub">${lbs} lbs × ${fmt(roastCostLb)}/lb</span>
       <span class="tt-row-val crimson">${fmt(lineRoastCost)}</span>
     </div>
     <div class="tt-row">
-      <span class="tt-row-label">⚖ Shrinkage</span>
+      <span class="tt-row-label">📉 Shrinkage</span>
       <span class="tt-row-sub">${lbs} lbs → ${roastedLbs.toFixed(1)} lbs roasted</span>
       <span class="tt-row-val" style="color:var(--ink3);font-size:12px;">−${roastLoss}%</span>
     </div>
@@ -1324,35 +1519,37 @@ function showTooltip(id){
     <div class="tt-section">Packaging &amp; Fulfilment</div>
 
     <div class="tt-row">
-      <span class="tt-row-label">⚗ Bag materials</span>
+      <span class="tt-row-label">🛍️ Bag materials</span>
       <span class="tt-row-sub">${bags} bags × ${fmt(bagCost)}/bag</span>
       <span class="tt-row-val crimson">${fmt(lineBagCost)}</span>
     </div>
     <div class="tt-row">
-      <span class="tt-row-label">🐎 Fulfillment</span>
+      <span class="tt-row-label">🚚 Fulfillment</span>
       <span class="tt-row-sub">${bags} bags × ${fmt(fulfillCost)}/bag</span>
       <span class="tt-row-val crimson">${fmt(lineFulfill)}</span>
     </div>
 
+    ${customRows.length ? `<div class="tt-section">Custom Costs</div>${customRows}` : ''}
+
     <div class="tt-section">Sales</div>
 
     <div class="tt-row">
-      <span class="tt-row-label">⚜ Sell price</span>
+      <span class="tt-row-label">💰 Sell price</span>
       <span class="tt-row-sub">${bags} bags × ${fmt(sell)}/bag</span>
       <span class="tt-row-val teal">${fmt(totalRevenue)}</span>
     </div>
     <div class="tt-row">
-      <span class="tt-row-label">🗝 Shopkeeper's cut</span>
+      <span class="tt-row-label">🏪 Platform / retailer fee</span>
       <span class="tt-row-sub">${bags} bags × ${shopCutPct}% of ${fmt(sell)}</span>
       <span class="tt-row-val crimson">−${fmt(lineShopCut)}</span>
     </div>
     <div class="tt-row">
-      <span class="tt-row-label">⚗ Bag size</span>
+      <span class="tt-row-label">🛍️ Bag size</span>
       <span class="tt-row-sub">${roastedLbs.toFixed(1)} lbs roasted ÷ ${b.ozPerBag} oz/bag</span>
       <span class="tt-row-val">${bags} bags</span>
     </div>
     <div class="tt-row">
-      <span class="tt-row-label">✋ You keep / bag</span>
+      <span class="tt-row-label">💵 You keep / bag</span>
       <span class="tt-row-sub">after fulfil &amp; shop cut</span>
       <span class="tt-row-val ${netPerBag >= 0 ? 'teal' : 'crimson'}">${pSign(netPerBag)}${fmt(netPerBag)}</span>
     </div>
@@ -1383,20 +1580,20 @@ function exportToExcel(){
   if(typeof XLSX === 'undefined'){ alert('Excel library not loaded yet — please wait a moment and try again.'); return; }
   if(batches.length === 0){ alert('No recipes to export.'); return; }
 
-  const supplyLbs     = parseFloat(document.getElementById('supply_lbs').value)     || 0;
-  const beanCost      = parseFloat(document.getElementById('bean_cost').value)       || 0;
-  const bagsBought    = parseFloat(document.getElementById('bags_bought').value)     || 0;
-  const bagCost       = parseFloat(document.getElementById('bag_cost').value)        || 0;
-  const roastCostLb   = parseFloat(document.getElementById('roast_cost_lb').value)   || 0;
-  const roastLoss     = parseFloat(document.getElementById('roast_loss').value)       || 0;
-  const fulfillCost   = parseFloat(document.getElementById('fulfill_cost').value)    || 0;
-  const shopCutPct    = parseFloat(document.getElementById('shop_cut').value)        || 0;
+  const supplyLbs    = parseFloat(document.getElementById('supply_lbs').value)    || 0;
+  const beanCost     = parseFloat(document.getElementById('bean_cost').value)     || 0;
+  const bagsBought   = parseFloat(document.getElementById('bags_bought').value)   || 0;
+  const bagCost      = parseFloat(document.getElementById('bag_cost').value)      || 0;
+  const roastCostLb  = parseFloat(document.getElementById('roast_cost_lb').value) || 0;
+  const roastLoss    = parseFloat(document.getElementById('roast_loss').value)     || 0;
+  const fulfillCost  = parseFloat(document.getElementById('fulfill_cost').value)  || 0;
+  const shopCutPct   = parseFloat(document.getElementById('shop_cut').value)      || 0;
 
   const wb = XLSX.utils.book_new();
 
-  // ── Sheet 1: Global Settings ──
+  // ── Sheet 1: Settings ──
   const settingsData = [
-    ['THE COFFEE LEDGER — MERCHANT\'S GRIMOIRE'],
+    ['COFFEE LEDGER — ROASTERY MANAGER'],
     ['Exported:', new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})],
     [],
     ['GLOBAL SETTINGS'],
@@ -1408,21 +1605,36 @@ function exportToExcel(){
     ['Roasting Fee', roastCostLb, '$/lb'],
     ['Roast Shrinkage', roastLoss, '%'],
     ['Fulfillment Cost', fulfillCost, '$/bag'],
-    ['Shopkeeper\'s Cut', shopCutPct, '%'],
+    ['Platform / Retailer Fee', shopCutPct, '%'],
   ];
+  if(customCosts.length > 0){
+    settingsData.push([]);
+    settingsData.push(['CUSTOM COSTS']);
+    settingsData.push(['Name', 'Value', 'Type']);
+    customCosts.forEach(cc => {
+      const typeLabel = {flat:'Flat ($/bag)', pct:'% of sale', perlb:'$/lb'}[cc.type] || cc.type;
+      settingsData.push([cc.name, cc.value, typeLabel]);
+    });
+  }
   const wsSettings = XLSX.utils.aoa_to_sheet(settingsData);
-  wsSettings['!cols'] = [{wch:28},{wch:16},{wch:10}];
+  wsSettings['!cols'] = [{wch:30},{wch:16},{wch:14}];
   XLSX.utils.book_append_sheet(wb, wsSettings, 'Settings');
 
   // ── Sheet 2: Recipes ──
+  // Build dynamic headers — add one column per custom cost
+  const ccNames = customCosts.map(cc => cc.name);
   const recipeHeaders = [
     'Recipe Name','Date','Lbs to Roast','Roasted Lbs','Oz per Bag',
-    'Bags Produced','Sell Price','Bean Cost','Roast Cost','Bag Material Cost',
-    'Fulfillment Cost','Shop Cut','Total Cost','Revenue','Profit','Margin %','Cost per Bag','Net per Bag'
+    'Bags Produced','Sell Price','Bean Cost','Roast Cost','Bag Materials',
+    'Fulfillment','Platform Fee',
+    ...ccNames,
+    'Total Cost','Revenue','Profit','Margin %','Cost per Bag','Net per Bag'
   ];
   const recipeRows = [recipeHeaders];
 
-  let totBags=0,totBeanCost=0,totRoastCost=0,totBagCost=0,totFulfill=0,totShopCut=0,totCost=0,totRev=0,totProfit=0;
+  let totBags=0,totBeanCost=0,totRoastCost=0,totBagCost=0,totFulfill=0,
+      totShopCut=0,totCustom=new Array(customCosts.length).fill(0),
+      totCost=0,totRev=0,totProfit=0;
 
   batches.forEach(b => {
     const lbs         = b.lbs || 0;
@@ -1436,7 +1648,20 @@ function exportToExcel(){
     const lBagCost    = bags * bagCost;
     const lFulfill    = bags * fulfillCost;
     const lShopCut    = bags * shopCutPer;
-    const totalCost   = lBeanCost + lRoastCost + lBagCost + lFulfill + lShopCut;
+
+    // Per custom cost amounts
+    const ccAmounts = customCosts.map((cc, i) => {
+      const v = cc.value || 0;
+      let amt = 0;
+      if(cc.type === 'flat')  amt = bags * v;
+      if(cc.type === 'pct')   amt = bags * sell * (v / 100);
+      if(cc.type === 'perlb') amt = lbs * v;
+      totCustom[i] = (totCustom[i] || 0) + amt;
+      return +amt.toFixed(2);
+    });
+
+    const customTotal = ccAmounts.reduce((a, b) => a + b, 0);
+    const totalCost   = lBeanCost + lRoastCost + lBagCost + lFulfill + lShopCut + customTotal;
     const revenue     = bags * sell;
     const profit      = revenue - totalCost;
     const margin      = revenue > 0 ? (profit / revenue) * 100 : 0;
@@ -1458,30 +1683,33 @@ function exportToExcel(){
       bags, sell,
       +lBeanCost.toFixed(2), +lRoastCost.toFixed(2), +lBagCost.toFixed(2),
       +lFulfill.toFixed(2), +lShopCut.toFixed(2),
+      ...ccAmounts,
       +totalCost.toFixed(2), +revenue.toFixed(2), +profit.toFixed(2),
-      +(margin.toFixed(2)), +cpb.toFixed(2), +netPerBag.toFixed(2)
+      +margin.toFixed(2), +cpb.toFixed(2), +netPerBag.toFixed(2)
     ]);
   });
 
-  // Totals row
   const overallMargin = totRev > 0 ? (totProfit / totRev) * 100 : 0;
   recipeRows.push([]);
   recipeRows.push([
-    'TOTALS', '',
-    '', '', '',
+    'TOTALS', '', '', '', '',
     totBags, '',
     +totBeanCost.toFixed(2), +totRoastCost.toFixed(2), +totBagCost.toFixed(2),
     +totFulfill.toFixed(2), +totShopCut.toFixed(2),
+    ...totCustom.map(v => +v.toFixed(2)),
     +totCost.toFixed(2), +totRev.toFixed(2), +totProfit.toFixed(2),
     +overallMargin.toFixed(2), '', ''
   ]);
 
   const wsRecipes = XLSX.utils.aoa_to_sheet(recipeRows);
-  wsRecipes['!cols'] = [
+  const colWidths = [
     {wch:22},{wch:18},{wch:14},{wch:14},{wch:12},
     {wch:14},{wch:12},{wch:14},{wch:14},{wch:16},
-    {wch:16},{wch:12},{wch:14},{wch:14},{wch:12},{wch:10},{wch:13},{wch:13}
+    {wch:14},{wch:12},
+    ...customCosts.map(cc => ({wch:Math.max(14, cc.name.length + 2)})),
+    {wch:14},{wch:14},{wch:12},{wch:10},{wch:13},{wch:13}
   ];
+  wsRecipes['!cols'] = colWidths;
   XLSX.utils.book_append_sheet(wb, wsRecipes, 'Recipes');
 
   // ── Sheet 3: Summary ──
@@ -1494,16 +1722,22 @@ function exportToExcel(){
     ['Total Roasting Cost', +totRoastCost.toFixed(2)],
     ['Total Bag Materials', +totBagCost.toFixed(2)],
     ['Total Fulfillment', +totFulfill.toFixed(2)],
-    ['Total Shop Cut', +totShopCut.toFixed(2)],
+    ['Total Platform Fee', +totShopCut.toFixed(2)],
+  ];
+  // Add custom cost totals
+  customCosts.forEach((cc, i) => {
+    summaryData.push([`Total ${cc.name}`, +(totCustom[i]||0).toFixed(2)]);
+  });
+  summaryData.push(
     [],
     ['Total Cost', +totCost.toFixed(2)],
     ['Total Revenue', +totRev.toFixed(2)],
     ['Net Profit', +totProfit.toFixed(2)],
-    ['Overall Margin', +(overallMargin.toFixed(2))+'%'],
-    ['Cost per Bag (avg)', batches.length > 0 ? +(totCost / totBags).toFixed(2) : 0],
-  ];
+    ['Overall Margin', +overallMargin.toFixed(2) + '%'],
+    ['Cost per Bag (avg)', totBags > 0 ? +(totCost / totBags).toFixed(2) : 0],
+  );
   const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
-  wsSummary['!cols'] = [{wch:24},{wch:16}];
+  wsSummary['!cols'] = [{wch:26},{wch:16}];
   XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
 
   XLSX.writeFile(wb, 'Coffee_Ledger_' + new Date().toISOString().slice(0,10) + '.xlsx');
@@ -1555,14 +1789,14 @@ function openRestock(type){
 
   if(type === 'beans'){
     const current = parseFloat(document.getElementById('supply_lbs').value) || 0;
-    document.getElementById('restock_icon').textContent    = '🌾';
+    document.getElementById('restock_icon').textContent    = '🌱';
     document.getElementById('restock_title').textContent  = 'Restock Green Beans';
     document.getElementById('restock_label').textContent  = 'Pounds to Add';
     document.getElementById('restock_current').innerHTML  = 'Current stock: <strong>' + current.toLocaleString() + ' lbs</strong>';
     input.step = '1';
   } else {
     const current = parseFloat(document.getElementById('bags_bought').value) || 0;
-    document.getElementById('restock_icon').textContent    = '⚗';
+    document.getElementById('restock_icon').textContent    = '🛍️';
     document.getElementById('restock_title').textContent  = 'Restock Empty Bags';
     document.getElementById('restock_label').textContent  = 'Bags to Add';
     document.getElementById('restock_current').innerHTML  = 'Current stock: <strong>' + current.toLocaleString() + ' bags</strong>';
